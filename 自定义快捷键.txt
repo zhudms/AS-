@@ -1,0 +1,48 @@
+http://www.cnblogs.com/moneymanymany/p/5157317.html
+
+刚开始学习Android，使用了Android Studio IDE。为了将来生产JavaDoc，学习一下如何自定义注释模板。
+
+. 自定义注释模板
+1. 通过 File –>Settings 或者 HotKey Ctrl + Alt + S 打开 Settings面板，如下图
+
+QQ图片20160125113939
+
+2. 点击 Editor下的Live Templates。如下图，显示的是Android Studio为开发者提供的默认模板及快捷键。
+
+)ROV9E9~AMRK%H$V`@~PUR5
+
+3. 为了自定义注释模板，点击右上角的“+”,选择Template Group创建一个自定义Template Group
+
+image
+
+4. 选择创建好的Template Group, 在点击“+”,选择Live Template创建一个自定义的Template
+
+image
+
+5. 选择创建好的Templat，如下图。在Abbreviation内输入字符串，例如decl。在Description内填写描述信息。image
+
+6. 在点击Template text输入框下方的Define，选择快捷键起作用的情况，选择Declaration，在函数前面输入decl后按回车即可以按模板生产注释
+
+image
+
+7. 在Template text内输入自定的注释模板，$xxx$这类的变量可以通过Edit variables来设置其含义
+
+image
+
+8. 如果要生成JavaDoc，就要按规则书写函数注释模板，规则可以参考 Editor –> Code Style –>Java –>JavaDoc
+
+image
+
+9. 点击Tools –>Generate JavaDoc 来生成Java Doc
+
+image
+
+10. 如果生产Java Doc失败，检查 Include jdk and library sources in –sourcepath是否勾选。
+
+Other command line arguments，设置Android SDK的bootclasspath和编码
+
+1. -bootclasspath D:\AndroidSDK\sdk\platforms\android-23
+
+2. -encoding utf-8
+
+3. -charset utf-8
