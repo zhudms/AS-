@@ -1,0 +1,10 @@
+
+
+didn't try 
+
+#保持greenDao的方法不被混淆
+-keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
+#用来保持生成的表名不被混淆
+    public static java.lang.String TABLENAME;
+}
+-keep class **$Properties
