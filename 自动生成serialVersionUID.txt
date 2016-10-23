@@ -1,0 +1,14 @@
+ Android Studio 自动生成 serialVersionUID
+2013-10-16 16:44 12315人阅读 评论(0) 收藏 举报
+版权声明：本文为博主原创文章，未经博主允许不得转载。
+
+
+
+http://stackoverflow.com/questions/12912287/intellij-idea-generating-serialversionuid
+
+
+勾上就OK了！～File => Settings... => Inspections => Serialization issues => Serializable class without 'serialVersionUID'
+
+
+
+找不到直接在Preference中直接搜索Serialization issues！直接Alt+enter直接就提示了！
