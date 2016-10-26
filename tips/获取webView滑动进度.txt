@@ -7,3 +7,643 @@
 //                }
 //            });
 //        }
+
+
+package com.zxyilian.nurse.ui;
+
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.zxyilian.nurse.Beans.MessageBean;
+import com.zxyilian.nurse.Beans.SourceDetailsB;
+import com.zxyilian.nurse.Beans.SourceIntentExtrasB;
+import com.zxyilian.nurse.Events.CancelCollectE;
+import com.zxyilian.nurse.Events.CollectFishE;
+import com.zxyilian.nurse.Events.EventBusHelper;
+import com.zxyilian.nurse.Events.GetCollectStateE;
+import com.zxyilian.nurse.Events.MessageReadConfirm;
+import com.zxyilian.nurse.Events.NewMessageE;
+import com.zxyilian.nurse.Events.NewNoticeE;
+import com.zxyilian.nurse.Events.OnDetailFinish;
+import com.zxyilian.nurse.Events.SourceCollentNumbE;
+import com.zxyilian.nurse.MyActionBarActivity;
+import com.zxyilian.nurse.MyApplaction;
+import com.zxyilian.nurse.R;
+import com.zxyilian.nurse.enums.NetStartType;
+import com.zxyilian.nurse.fragment.MessageBaseF;
+import com.zxyilian.nurse.net.ClientAPI;
+import com.zxyilian.nurse.net.MyHttpHelper;
+import com.zxyilian.nurse.util.LogUtil;
+import com.zxyilian.nurse.util.NetUtil;
+import com.zxyilian.nurse.util.ToastUtil;
+import com.zxyilian.nurse.util.UiUtils;
+import com.zxyilian.nurse.util.VALUES;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.HashMap;
+
+/**
+ * 打开资源详情
+ * net checked
+ * Created by TANG on 2016/5/5.
+ */
+public class SourceDetailAct extends MyActionBarActivity {
+
+    public static final String SOURCE_EXTRAS = "source_extras";
+    public static final String SOURCETYPE_MESSAGE = "from_message";//查看消息详情 ，可能需要会写状态,由消息打开详情
+    public static final String SOURCETYPE_SEARCH = "search_repository";//由搜索打开详情
+    public static final String SOURCETYPE_SOURCE = "";//资源详情 ，不需要回写状态
+    public static final String SOURCETYPE_COLLECTION = "";//资源详情 ，不需要回写状态
+    public static final String SOURCETYPE_UNKOWN = "";//资源详情 ，不需要回写状态
+
+
+    private SourceDetailsB mDetails;
+
+    private String mGUID;
+    private int isCollected;
+
+    private RelativeLayout mMenuContainer;
+
+    private TextView collectionTv;
+    private ImageView collectionImage;
+    private String mURL = ClientAPI.BASE_HTTP + "common_showResourceDetailPage.action?resourceId=";
+
+    private WebChromeClient mClient;
+    private WebView mWebView;
+    private LinearLayout mRootView;
+    private LinearLayout mTopView;
+    private FrameLayout mDetailRoot;
+    private ProgressBar mProgressBar;
+    private View fullScreenView;
+
+
+    private String clientType = VALUES.CLIENT_TYPE;//-client
+    //通过intent传的参数
+    private String startType;//-type
+    private int detailPage;//逻辑使用
+
+
+    //通过intent传递的参数获取的参数
+    String title;//界面使用
+
+
+    //结合intent中的数据获取的参数
+    String barLeftName;//界面使用
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.source_show_layout;
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+                try {
+                   
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+        initData();
+        initView();
+
+        openSource();         }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+    }
+
+    /**
+     *
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try{
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }} catch (Exception e) {
+                    e.printStackTrace();
+                }
+    }
+
+    /**
+     * 显示界面详情
+     */
+    private void openSource() {
+try{
+        if (MyApplaction.getmUser() == null) {
+            ToastUtil.toast(SourceDetailAct.this, R.string.no_user);
+            return;
+        }
+
+        if (NetUtil.isNetworkUseful(SourceDetailAct.this)) {
+
+            mWebView.loadUrl(getLoadingAdress(true));
+        } else {
+            ToastUtil.toast(SourceDetailAct.this, R.string.net_error);
+        }} catch (Exception e) {
+                    e.printStackTrace();
+                }
+    }
+    //true 标示要求服务端进行计算，false代表不计算
+    private String getLoadingAdress(boolean askedServerTocunt) {
+        
+        String count = "";
+        //count字段非空时候，调用一次连接，会生成一次统计；
+        if ( askedServerTocunt ) {
+            count = "caculate";
+        }else{
+            count = "";
+        }
+        if (MyApplaction.getmUser() == null) {
+            ToastUtil.toast(SourceDetailAct.this, R.string.no_user);
+            return "about:blank";
+        }
+        return mURL + mGUID + VALUES.NET_CONNTCTION +
+                "type=" + startType + VALUES.NET_CONNTCTION +
+                "client=" + VALUES.CLIENT_TYPE + VALUES.NET_CONNTCTION +
+                "orgCode=" + MyApplaction.getmUser().getORG_CODE() + VALUES.NET_CONNTCTION +
+                "userId=" + MyApplaction.getmUser().getUUID() + VALUES.NET_CONNTCTION+
+                "count="+count;
+    }
+
+    private void initView() {
+
+        mWebView = (WebView) findViewById(R.id.source_show_web);
+        mDetailRoot = (FrameLayout) findViewById(R.id.source_detail_root);
+        mTopView = (LinearLayout) findViewById(R.id.top_layout);
+        mRootView = ((LinearLayout) findViewById(R.id.root_layout));
+
+
+        mProgressBar = (ProgressBar) findViewById(R.id.source_detail_progressbar);
+        mMenuContainer = (RelativeLayout) findViewById(R.id.menu_container);
+        collectionTv = (TextView) findViewById(R.id.source_show_collecttv);
+        collectionImage = (ImageView) findViewById(R.id.source_show_collectImg);
+
+        WebSettings settings = mWebView.getSettings();
+
+        settings.setJavaScriptEnabled(true);
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+//       settings.setPluginState(WebSettings.PluginState.ON);
+//       settings.setPluginsEnabled(true);//可以使用插件
+//       settings.setJavaScriptCanOpenWindowsAutomatically(true);
+//       settings.setAllowFileAccess(true);
+        settings.setDefaultTextEncodingName("UTF-8");
+//       settings.setAllowUniversalAccessFromFileURLs(true);
+
+//        settings.setTextSize(WebSettings.TextSize.LARGEST);
+//
+//        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+//
+//       settings.setLoadWithOverviewMode(true);
+//       settings.setUseWideViewPort(true);
+        mWebView.setWebChromeClient(mClient);
+        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+        mMenuContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMenuContainer.getVisibility() == View.VISIBLE) {
+                    mMenuContainer.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    /**
+     * 每项都有可能报空，要分开捕捉，否则抛出异常后不会执行下面代码
+     * 封装成对象（重构时）
+     */
+    private void initData() {
+        Intent intent = getIntent();
+
+
+        SourceIntentExtrasB intentExtrasB= ((SourceIntentExtrasB) intent.getSerializableExtra(SOURCE_EXTRAS));
+        mDetails=intentExtrasB.getmSourceDetailsB();
+        barLeftName=intentExtrasB.getmBarLeftName();
+        detailPage=intentExtrasB.getmDetailPage();
+        startType=intentExtrasB.getmStartType();
+        if (startType == null) {
+            startType = SOURCETYPE_UNKOWN;
+        }
+
+
+//        HashMap<String, Object> extraMap = ((HashMap<String, Object>) intent.getSerializableExtra(SOURCE_EXTRAS));
+//        try {
+//            //原来就有的
+//            mDetails = ((SourceDetailsB) extraMap.get(SOURCE_DETAIL));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//
+//        }
+//        try {
+//            //原来就有的
+//            barLeftName = ((String) extraMap.get(SOURCE_BARLEFT));
+//
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//
+//        }
+//        try {
+//            //原来就有的
+//            detailPage = ((int) extraMap.get(MessageBaseF.DETAIL_PAGE));
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//
+//        }
+//        try {
+//            startType = ((String) extraMap.get(SOURCE_STARTTYPE));//逻辑也要用加载地址也要用
+//            if (startType == null) {
+//                startType = SOURCETYPE_UNKOWN;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//
+//        }
+//        startType = intent.getIntExtra(SOURCE_STARTTYPE, SOURCETYPE_SOURCE);
+//
+//        mDetails = (SourceDetailsB) intent.getSerializableExtra(SOURCE_DETAIL);
+//
+//        barLeftName = intent.getStringExtra(SOURCE_BARLEFT);
+
+        {
+            mGUID = mDetails.getGUID();
+            title = mDetails.getTITLE();
+
+
+            if (barLeftName == null || barLeftName.length() == 0) {
+                barLeftName = mDetails.getRES_NAME();
+            }
+        }
+
+        if (startType.equals(SOURCETYPE_MESSAGE)) {
+//            mGUID = intent.getStringExtra(MessageBean.MESSAGE_MESSAGEID);
+//            title = intent.getStringExtra(MessageBean.MESSAGE_TITLE);
+//            barLeftName = "关闭";
+
+
+            int state = -1;
+            try {
+                state = Integer.valueOf(mDetails.getSTATUS());
+            } catch (Exception e) {
+                return;
+            }
+            if (state < 0) {
+                return;
+            }
+            if (state == MessageBean.MESSAGE_NURSE_UNREAD) {
+                if (NetUtil.isNetworkUseful(SourceDetailAct.this)) {
+                    MyHttpHelper.messageConfirmRead(mDetails.getMessageId(), MessageStringDetailAct.TAG_STRING);
+
+                }
+            }
+            barLeftName = getResources().getString(R.string.close);
+
+        }
+
+        collectChangeType = NetStartType.COLLECTION_TYPE_SOURCE_DETAIL;
+        mClient = new WebChromeClient();
+
+        setMyActionBar(barLeftName, title);
+        getCollectState();
+    }
+
+//    private void initData() {
+//
+//        mClient = new WebChromeClient();
+//
+//        Intent intent = getIntent();
+//        String title;
+//        String barLeftName;
+//        startType = intent.getIntExtra(SOURCE_STARTTYPE, SOURCETYPE_SOURCE);
+//
+//        mDetails = (SourceDetailsB) intent.getSerializableExtra(SOURCE_DETAIL);
+//        mGUID = mDetails.getGUID();
+//        title = mDetails.getTITLE();
+//
+//        collectChangeType = NetStartType.COLLECTION_TYPE_SOURCE_DETAIL;
+//
+//        barLeftName = intent.getStringExtra(SOURCE_BARLEFT);
+//        if (barLeftName == null || barLeftName.length() == 0) {
+//            barLeftName = mDetails.getRES_NAME();
+//        }
+//
+//
+//        if (startType == SOURCETYPE_MESSAGE) {
+////            mGUID = intent.getStringExtra(MessageBean.MESSAGE_MESSAGEID);
+////            title = intent.getStringExtra(MessageBean.MESSAGE_TITLE);
+////            barLeftName = "关闭";
+//
+//
+//            int state = -1;
+//            try {
+//                state = Integer.valueOf(mDetails.getSTATUS());
+//            } catch (Exception e) {
+//                return;
+//            }
+//            if (state < 0) {
+//                return;
+//            }
+//            if (state == MessageBean.MESSAGE_NURSE_UNREAD) {
+//                if (NetUtil.isNetworkUseful(SourceDetailAct.this)) {
+//                    MyHttpHelper.messageConfirmRead(mDetails.getMessageId(), MessageStringDetailAct.TAG_STRING);
+//
+//                }
+//            }
+//            barLeftName = getResources().getString(R.string.close);
+//
+//        }
+//
+//
+//        setMyActionBar(barLeftName, title);
+//        getCollectState();
+//
+//
+//    }
+
+
+    private void getCollectState() {
+        if (NetUtil.isNetworkUseful(SourceDetailAct.this)) {
+            MyHttpHelper.getCollectState(mGUID);
+        }
+
+    }
+
+    /**
+     * 设置显示取消收藏、收藏
+     */
+    private void initButton() {
+        if (isCollected == SourceDetailsB.COLLECT_COLLECTED) {
+            collectionTv.setText(R.string.cancle_collect);
+            collectionImage.setImageResource(R.drawable.uncollection);
+        } else if (isCollected == SourceDetailsB.COLLECT_UNCOLLECTED) {
+            collectionTv.setText(R.string.collection);
+            collectionImage.setImageResource(R.drawable.collection);
+        }
+    }
+
+    private void setMyActionBar(String leftName, String title) {
+
+        showLeft(R.drawable.bar_back, leftName);//这里应该是 父级名称
+        setbarTitle(title);
+        showRight(R.drawable.source_detail_menu);
+    }
+
+
+    @Override
+    public void onBarClick(View v) {
+        super.onBarClick(v);
+        switch (v.getId()) {
+            case R.id.actionbar_left:
+                finishThis();
+                break;
+            case R.id.actionbar_left_icon:
+                finishThis();
+                break;
+
+            case R.id.actionbar_rightsecond:
+
+                if (NetUtil.isNetworkUseful(SourceDetailAct.this)) {
+                    if (mMenuContainer.getVisibility() == View.GONE) {
+
+                        showMenu();
+                    } else if (mMenuContainer.getVisibility() == View.VISIBLE) {
+
+                        hideMenu();
+                    }
+                } else {
+                    ToastUtil.toast(SourceDetailAct.this, R.string.net_error);
+                }
+
+                break;
+        }
+    }
+
+    private void showMenu() {
+        mMenuContainer.setVisibility(View.VISIBLE);
+    }
+
+    private void hideMenu() {
+        mMenuContainer.setVisibility(View.GONE);
+    }
+
+    private void finishThis() {
+        if (startType.equals(SOURCETYPE_MESSAGE)) {
+            EventBusHelper.post(new OnDetailFinish(detailPage, mDetails.getUUID()));
+        }
+//        if (getIntent().getIntExtra(SOURCE_STARTTYPE, SOURCETYPE_UNKOWN) == SOURCETYPE_MESSAGE) {
+//            EventBusHelper.post(new OnDetailFinish(getIntent().getIntExtra(MessageBaseF.DETAIL_PAGE, MessageBaseF.PAGE_UNKOWN), mDetails.getUUID()));
+//        }
+        finish();
+    }
+
+
+    public void onMenuButtonClick(View v) {
+
+        if (NetUtil.isNetworkUseful(SourceDetailAct.this)) {
+            switch (v.getId()) {
+                case R.id.source_show_collect:
+                    if (isCollected == SourceDetailsB.COLLECT_COLLECTED) {
+
+                        MyHttpHelper.cancelCollectSource(collectChangeType, mGUID);
+                    } else if (isCollected == SourceDetailsB.COLLECT_UNCOLLECTED) {
+                        MyHttpHelper.collectSource(collectChangeType, mGUID);
+                    }
+                    break;
+                case R.id.source_show_forward:
+                    doForward();
+//                UiUtils.showSelectPatinets(this, mDetails);
+                    break;
+
+
+            }
+
+        } else {
+            ToastUtil.toast(SourceDetailAct.this, R.string.net_error);
+        }
+        hideMenu();
+    }
+
+    private void doForward() {
+//        EventBus.getDefault().post(new MessageForwardE(MessageForwardE.FORWARD_SELECTPATIENT,mDetails.getGUID()));
+        if (NetUtil.isNetworkUseful(SourceDetailAct.this)) {
+            String messageId = mDetails.getMessageId();
+            if (messageId == null) {//是资源
+
+                UiUtils.showSelectPatinets(this, mDetails
+                );
+            } else {
+                UiUtils.showSelectPatinets(this, mDetails.getMessageId());
+            }
+        } else {
+            ToastUtil.toast(SourceDetailAct.this, R.string.net_error);
+        }
+    }
+
+
+    @Subscribe
+    public void onEvent(MessageReadConfirm message) {
+        if (message.getErrorMessage() == null) {//说明状态更新成功
+            EventBus.getDefault().post(new NewMessageE(NewNoticeE.CHANGE_MESSAGE));
+        }
+    }
+
+
+    @Subscribe
+    public void onEvent(CollectFishE collectFinish) {
+        NetStartType type = collectFinish.getType();
+        if (type != collectChangeType) {
+            return;
+        }
+
+        if (collectFinish.getErrorMessage() == null) {
+            isCollected = SourceDetailsB.COLLECT_COLLECTED;
+            ToastUtil.toast(this, R.string.collect_success);
+
+        } else {
+            ToastUtil.toast(this, R.string.uncollect_fail);
+            LogUtil.d(VALUES.TAG_FILTER, getClass().getSimpleName() + "CollectFishE_" + collectFinish.getErrorMessage());
+        }
+
+        initButton();
+        EventBusHelper.post(new SourceCollentNumbE());
+
+    }
+
+    @Subscribe
+    public void onEvent(CancelCollectE cancelCollectE) {
+        NetStartType type = cancelCollectE.getType();
+        if (type != collectChangeType) {
+            return;
+        }
+
+
+        if (cancelCollectE.getErrorMessage() == null) {
+            isCollected = SourceDetailsB.COLLECT_UNCOLLECTED;
+            ToastUtil.toast(this, R.string.uncollect_success);
+        } else {
+//            ToastUtil.toast(this, cancelCollectE.getErrorMessage());
+            ToastUtil.toast(this, R.string.uncollect_fail);
+            LogUtil.d(VALUES.TAG_FILTER, getClass().getSimpleName() + "cancelCollectE" + cancelCollectE.getErrorMessage());
+        }
+
+        initButton();
+        EventBusHelper.post(new SourceCollentNumbE());
+
+//        this.finish();
+    }
+
+    @Subscribe
+    public void onEvent(GetCollectStateE getCollectE) {
+        if (getCollectE.getErrorMessage() == null) {
+            isCollected = getCollectE.getIsCollected();
+            initButton();
+
+        }
+
+    }
+
+
+    public class WebChromeClient extends android.webkit.WebChromeClient {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            if (newProgress == 100) {
+
+                mProgressBar.setVisibility(View.GONE);
+            } else {
+                if (mProgressBar.getVisibility() == View.GONE)
+                    mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setProgress(newProgress);
+
+            }
+            super.onProgressChanged(view, newProgress);
+        }
+
+        @Override
+        public void onShowCustomView(View view, CustomViewCallback callback) {
+            super.onShowCustomView(view, callback);
+
+
+            mDetailRoot.removeView(mWebView);
+
+            mRootView.removeView(mTopView);
+
+            view.setBackgroundColor(Color.BLACK);
+            mRootView.addView(view);
+
+            fullScreenView = view;
+            setBarNoColor();
+
+            LogUtil.d("asd", "onShowCustomView");
+        }
+
+
+        @Override
+        public void onHideCustomView() {
+//            super.onHideCustomView();
+            setBarAppColor();
+            if (fullScreenView != null) {
+                mRootView.removeView(fullScreenView);
+
+                try {
+                    mRootView.addView(mTopView);
+                    mDetailRoot.addView(mWebView);
+                } catch (Exception e) {
+                    if (mWebView.getParent() != null) {
+                        mDetailRoot.removeView(mWebView);
+                        mDetailRoot.addView(mWebView);
+                    }
+                    LogUtil.d("asd", e.toString());
+                    e.printStackTrace();
+                }
+                mRootView.postInvalidate();
+            }
+            LogUtil.d("asd", "onHideCustomView");
+
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mWebView != null) {
+            mWebView.loadUrl(getLoadingAdress(false));
+            //mWebView.reload();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finishThis();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+}

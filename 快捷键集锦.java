@@ -24,3 +24,4 @@ run shift+F10
 Ctrl+Q 显示注释文档
 Ctrl+H 显示类结构图 -->当前类的继承关系
 ctrl+u  跳转到父类
+ctrl+alt+home 直接眺到当前类引用的布局
