@@ -1,0 +1,13 @@
+getLayoutId()
+
+initData()
+initView();
+
+
+getLocalData
+getOnLineData
+
+flushShow
+operdata()
+
+getEmptyLayout
