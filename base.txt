@@ -1,3 +1,5 @@
+Act
+
 getLayoutId()
 
 initData()
@@ -11,3 +13,17 @@ flushShow
 operdata()
 
 getEmptyLayout
+showEmpty
+hideEmpty
+
+showLoadingDialog
+hideLoadingDialog
+
+
+
+listAct
+
+mListView
+mLists
+mAdapter
+
