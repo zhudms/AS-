@@ -8,6 +8,7 @@ ctrl+alt+s  打开settings
 ctrl+alt+shift +上下方向键 光标向上下移动一个代码段--不怎么好用
 
 Ctrl＋N，需要输入文件名，可以快速打开类
+Ctrl+shift+f 全局查找某字符串（文件内查找）
 ctrl+F10 自动生成方法注释
 
 debug shift+F9
