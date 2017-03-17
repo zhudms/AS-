@@ -21,6 +21,12 @@ Ctrl+H 显示类结构图 -->当前类的继承关系
 ctrl+u  跳转到父类
 ctrl+alt+home 直接眺到当前类引用的布局
 ctrl+鼠标左键悬停 查看声明
+ctrl+shift+N  直接跳转到某文件
+ctrl+E  最近文件（列表）
+Alt+Home 选中文件打开目录级别那里（Navigation Bar）
+Alt+1 快速打开/关闭 文件列表栏
+double shift search every 貌似是搜索文件名
+
 
  编辑 
  shift + F6 重命名 
@@ -33,5 +39,7 @@ ctrl+alt+o 自动倒包
  alt+j(ctrl+G,mac) 多行编辑
  
 ctrl+alt+shift +上下方向键 光标向上下移动一个代码段--不怎么好用
+
+
 
  
