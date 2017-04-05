@@ -1,0 +1,2 @@
+E:\sdk\sdk\platform-tools
+android 的命令行要在sdk的platform-tools下使用
