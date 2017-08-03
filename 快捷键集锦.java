@@ -29,7 +29,7 @@ double shift search every 貌似是搜索文件名
 
 
  编辑 
- shift + F6 重命名 
+ shift + F6 重命名 (MAC  control+fn+F6)
 ctrl +shift +U 切换大小写
 ctrl+alt+o 自动倒包
  去掉无效倒包  ctrl +alt+O
