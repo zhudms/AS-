@@ -1,4 +1,4 @@
-﻿
+
  环境 
 ctrl+alt+s  打开settings
 移动屏幕 ctrl+方向键
@@ -37,7 +37,8 @@ ctrl+alt+o 自动倒包
 移动一行代码 alt+shift+上下
 快速移动一行代码（越过代码块）ctrl+shift+上下
  alt+j(ctrl+G,mac) 多行编辑
- 
+
+
 ctrl+alt+shift +上下方向键 光标向上下移动一个代码段--不怎么好用
 
 
