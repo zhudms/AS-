@@ -1,5 +1,12 @@
 #Mac下快捷键的符号所对应的按键
-+ ⌥—> option|alt
+特殊符号 :
+
+1. Command () : ⌘ ; 
+2. Control : ⌃ ; 
+3. Option (alt) : ⌥ ; 
+4. Shift : ⇧ ; 
+5.  Caps Lock : ⇪ ;
+6. ⌥—> option|alt
 + ⇧—>shift
 + ⌃—>control
 + ⌘—>command
@@ -7,6 +14,54 @@
 
 + 注: 与F6/F7/F12等F功能键开头的组合的快捷键需要按住fn开启功能键
 如：快捷键⌘F12的按键组合为：fn + command + F12
++ 注：MAC 中的AS快捷键（alt 多半是option键）
+
+##私货
+
++ 格式化代码 ：option+command+L
+
+Shift+⌘+”+” 展开全部 
+Shift+⌘+”-“ 折叠全部 
+cmd+”+” 展开当前 
+cmd+”-“ 折叠当前
+
+shift+⌘+L 展开文档注释 
+ctrl+shift+⌘+L 收起文档注释
+
+⌘+/ 当行注释 
+⌘+alt+/ 多行注释
+
+alt+F7 查找使用的位置 
+Ctrl+Shift+F FindInPath
+
+shift+f6 重命名
+
+Ctrl+Enter 生成set/get（或者Ctrl+N） 
+Ctrl+J 查看文档说明（同windows中的ctrl+Q） 
+Ctrl+O/⌘+O 重写父类方法 
+Ctrl+i 实现方法
+
+Ctrl+shift+Q 查看当前光标所在的类 
+alt+回车 查看当前元素可以做的操作
+
+alt+⌘+L 格式化代码 
+Ctrl+Alt+O 自动导包 control+option+o
+Ctrl+Alt+I 自动缩进行
+
+⌘+Alt+M 抽取方法 
+⌘+Alt+V 提取变量（还没尝试） 
+⌘+Alt+F 提取成员变量 
+⌘+Alt+C 提取为常量 
+⌘+Alt+P 提取参数
+
+⌘+E 最近操作的文件
+
+⌘+F12 查看当前类的结构 
+⌘+B / ⌘+左键单击 查看元素的源码（或者自定义元素的初始化） 
+Shift+left/right 从光标位置开始，向左/右逐个选中字母
+
+Ctrl+cmd+”+” 窗口最大化（或者恢复窗口模式） 
+Ctrl+shift+向上箭头 类似win中的win+P(切换窗口)
 
 ##Android Studio 常用快捷键 for mac
 ###查找／查看相关
