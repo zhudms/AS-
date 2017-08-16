@@ -18,7 +18,7 @@
 
 ##私货
 
-+ 格式化代码 ：option+command+L
+格式化代码 ：option+command+L
 
 Shift+⌘+”+” 展开全部 
 Shift+⌘+”-“ 折叠全部 
@@ -59,7 +59,7 @@ Ctrl+Alt+I 自动缩进行
 ⌘+F12 查看当前类的结构 
 ⌘+B / ⌘+左键单击 查看元素的源码（或者自定义元素的初始化） 
 Shift+left/right 从光标位置开始，向左/右逐个选中字母
-
+option+删除 删除整个单词
 Ctrl+cmd+”+” 窗口最大化（或者恢复窗口模式） 
 Ctrl+shift+向上箭头 类似win中的win+P(切换窗口)
 
