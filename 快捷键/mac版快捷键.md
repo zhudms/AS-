@@ -19,6 +19,7 @@
 ##私货
 
 格式化代码 ：option+command+L
+control+option+i
 
 Shift+⌘+”+” 展开全部 
 Shift+⌘+”-“ 折叠全部 
@@ -204,3 +205,26 @@ Android_Studio 导入项目
 	distributionUrl=https\://services.gradle.org/distributions/gradle-2.2.1-all.zip
 
 CTRL + CMD + F	全屏切换，期间导致过一次工具栏消失#
+
+
+1. 上下行移动： alt＋shift ＋up／down
+2. 上下移动整个方法： cmd＋shift + up/down
+3. 删除行：cmd＋delete
++ 向下复制行：cmd+d
+3. 扩大缩小选中范围：option＋up/down
+6. 生成结构体：cmd＋option＋t（比如生成if，try...catch，synchronized等）
+6. 快捷覆写方法：ctrl+o
+6. 快捷生成setget等：cmd＋n
+6. 快捷定位到行首／尾：cmd＋left/right
+6. 注释代码：cmd＋／（／／）cmd＋option＋／（／＊＊／）
+6. 快捷最近打开：cmd+e
+6. 清楚无效引用：ctrl+option+o
+6. 查找＋替换：cmd＋r
+6. 查找：cmd＋f
+6. 来回你刚刚看的地方：cmd+option+left/right
+6. 点进去看的：cmd+down
+6. 查找调用的位置：ctrl+option+h
+6. 全局查找：cmd+shift+f
+6. 提示错误解决方案：option+enter
+6. 智能补全代码：ctrl+shift+space
+6. 补全代码（basic）：option＋space（原始为ctrl＋space 与系统快速搜索快捷键冲突，然后就自己改了键，我是仔setting里搜到basic然后remove掉再加上）。
