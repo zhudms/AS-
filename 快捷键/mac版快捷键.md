@@ -218,7 +218,7 @@ CTRL + CMD + F	全屏切换，期间导致过一次工具栏消失#
 6. 快捷定位到行首／尾：cmd＋left/right
 6. 注释代码：cmd＋／（／／）cmd＋option＋／（／＊＊／）
 6. 快捷最近打开：cmd+e
-6. 清楚无效引用：ctrl+option+o
+6. 去除无效倒包：ctrl+option+o
 6. 查找＋替换：cmd＋r
 6. 查找：cmd＋f
 6. 来回你刚刚看的地方：cmd+option+left/right
