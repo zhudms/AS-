@@ -16,9 +16,17 @@
 
 ###应用启动速度
 1. <https://mp.weixin.qq.com/s/kJPHU4figXRVygBKiTuppg>
+2. <https://segmentfault.com/a/1190000004743424>
 
 ###Map，Array等
 1. <http://www.jianshu.com/p/679ea6534bc0>
+
+###热修复
+1. AndFix<br /><https://mp.weixin.qq.com/s?__biz=MzI5ODI5NDkxMw==&mid=2247485644&idx=1&sn=cb6bc979aa33f38ba38e312b597a65e0&chksm=eca94322dbdeca3425d448f15d731825281ba2652da8c2ff2ffacefb0d2b307b2a97ccc05122&mpshare=1&scene=23&srcid=1019Mutv3dkpitngAsSZ14Ol#rd>
+
+###全局修改字体
+1. 有个开源字体库，在git,只能用那种字体
+2. 常规方法<br /><http://blog.csdn.net/u014608071/article/details/51154658>
 #GIT
 
 1. Git检测内存泄露的外库
