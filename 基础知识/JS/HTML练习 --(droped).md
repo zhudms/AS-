@@ -257,7 +257,127 @@ var person= new Object;
 ```
 	+ **JavaScript 变量均为对象。当声明一个变量时，就创建了一个新的对象。**
 	+ **把值赋给尚未声明的变量，该变量将被自动作为全局变量声明,即使它在函数内执行**
-	
+	+ **通过标签名查找 HTML 元素**<br />
+实例
+本例查找 id="main" 的元素，然后查找 "main"中的所有 `<p>`元素：
+<h5>
+var x=document.getElementById("main");<br />
+var y=x.getElementsByTagName("p");</h5>
+
+	+ <a href="http://www.w3school.com.cn/jsref/prop_style_display.asp">标签元素级别<a/>
+	+ <a href="http://www.w3school.com.cn/jsref/prop_style_liststyletype.asp">列表标记修改</a>
+	+ <a href="http://www.w3school.com.cn/jsref/dom_obj_style.asp#background">HTML DOM Style 对象(ToRead)</a>
+11. onload 和 onunload 事件<br />
+会在用户进入或离开页面时被触发。
+onload 事件可用于检测访问者的浏览器类型和浏览器版本，并基于这些信息来加载网页的正确版本。<br />
+onload 和 onunload 事件可用于处理 cookie。
+12. onmouseover 和 onmouseout 事件<br />
+鼠标移至 HTML 元素上方或移出元素时触发函数。
+
+13. onmousedown 和 onmouseup<br />
+--按下状态和抬起状态
+
+14. <a href="http://www.w3school.com.cn/jsref/dom_obj_event.asp">DOM Event事件对照表(ToRead)</a>
+15. <a href="http://www.w3school.com.cn/jsref/jsref_events.asp">JavaScript 事件参考手册</a>
+15. <a href="http://www.w3school.com.cn/jsref/index.asp">JavaScript 参考手册(ToRead)</a>
+16. <a href="http://www.w3school.com.cn/jsref/jsref_obj_number.asp">数字常量及方法说明</a>
+17. <a href="http://www.w3school.com.cn/jsref/jsref_obj_string.asp">String方法说明</a>
+18. <a href="http://www.w3school.com.cn/jsref/dom_obj_anchor.aspc">HTML其他标签（ToRead）</a>
+
+##### JS Window
+
+1. Window Location<br />
+window.location 在编写时可不使用 window 这个前缀。<br />
+一些例子：<br />
+location.hostname 返回 web 主机的域名<br />
+location.pathname 返回当前页面的路径和文件名<br />
+location.port 返回 web 主机的端口 （80 或 443）<br />
+location.protocol 返回所使用的 web 协议（http:// 或 https://）<br />
+location.pathname 属性返回 URL 的路径名(相对路径)。<br />
+location.assign() 方法加载新的文档。<br />
+
+2. window.history <br />
+对象在编写时可不使用 window 这个前缀。<br />
+为了保护用户隐私，对 JavaScript 访问该对象的方法做出了限制。
+一些方法：<br />
+history.back() - 与在浏览器点击后退按钮相同<br />
+history.forward() - 与在浏览器中点击按钮向前相同<br />
+
+3. <a href="http://www.w3school.com.cn/js/js_window_navigator.asp"> Window Navigator(嗅探器)</a>
+4. <a href="http://www.w3school.com.cn/js/js_popup.asp">消息框</a>
+ + 警告框(确保用户可以得到某些信息,需要点击确定按钮才能继续)<br />
+ `alert("文本")`
+ + 确认框(需要点击确定或者取消按钮才能继续,返回true，或false)<br />
+  `confirm("文本")`
+  + 提示框(需要输入某个值，然后点击确认或取消按钮才能继续,返回值为输入的值,或null（用户点击取消））)
+  `prompt("文本","默认值")`
+  
+5. <a href="http://www.w3school.com.cn/js/js_timing.asp">JS 计时器</a>
+6. <a href="http://www.w3school.com.cn/js/js_cookies.asp">JS Cookies</a>
+7. 引用 jQuery<br />
+`<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+</script>`
+
+8. <a href="http://www.w3school.com.cn/cssref/css_selectors.asp">CSS选择器参考手册</a>
+9. <a href="http://www.w3school.com.cn/cssref/index.asp">CSS参考手册</a>
+10. 在 CSS 定义中，这四种属性必须按照这样的排列顺序生效
+`<style type="text/css">
+a:link {color: #FF0000}
+a:visited {color: #00FF00}
+a:hover {color: #FF00FF}
+a:active {color: #0000FF}
+</style>`
+
+####JS视频<http://www.imooc.com/video/5674>
+1. 原始类型：
+ + number
+ + string
+ + boolean
+ + null
+ + undefined
+2. Object (对象)
+ + Function
+ + Array
+ + Date
+ + ...
+3. instance of 在跨ifream的对象间的判断不能使用
+
+
+###CSS
+1.  <a href="http://www.w3school.com.cn/css/css_pseudo_classes.asp">CSS 中的伪类(看文档最后的伪类列表)</a>
+1. p:first-child i{background:yellow;}<br />
+	意义：**P标签的父元素下的第一个P标签的所有i标签设置背景色黄色。**
+
+3. first-line只能用于块元素
+4. <a href="http://www.w3school.com.cn/css/css_pseudo_elements.asp">其他伪元素（ToRead）</a>
+5. <a href="http://www.w3school.com.cn/css/css_dimension.asp">CSS尺寸（ToRead）</a>
+6. <a href="http://www.w3school.com.cn/css/css_classification.asp">布局属性（CSS分类）</a>
+7. <a href="http://www.w3school.com.cn/css/css_navbar.asp">创建导航栏</a>
+8. <a href="http://www.w3school.com.cn/css/css_image_gallery.asp">gridlayout布局</a>
+9. <a href="http://www.w3school.com.cn/cssref/index.asp">CSS 参考手册</a>
+10. <a href="http://www.w3school.com.cn/cssref/css_selectors.asp"></a>
+11. <a href="http://www.w3school.com.cn/cssref/css_units.asp">单位</a>
+12. "#" id 选择器 
+`#red {color:red;} <p id="red">这个段落是红色。</p>`
+13. <a href="http://www.w3school.com.cn/css/css_syntax_descendant_selector.asp">派生选择器</a>
+14. <a href="http://www.w3school.com.cn/css/css_syntax_class_selector.asp">类选择器</a>
+`<h1 class="center">
+This heading will be center-aligned
+</h1> h1.center {text-align: center}`
+
+16. <a href="http://www.w3school.com.cn/css/css_syntax_attribute_selector.asp">属性选择器</a>
+17.  id class 标记的都可用于派生选择器
+
+
+
+###AngularJS
+1. ng-model 相当于声明输入对象（将输入保存到哪个对象中）
+2. ng-bind 将输出（显示）绑定数据源（类似{{}}？）
+3. ng-init 初始化
+
+
+
+
 
 
 
