@@ -1,0 +1,4 @@
+        WindowManager wm = this.getWindowManager();
+
+        winWidth = wm.getDefaultDisplay().getWidth();
+                 winHeight = wm.getDefaultDisplay().getHeight();

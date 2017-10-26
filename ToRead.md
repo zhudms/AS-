@@ -27,10 +27,17 @@
 ###全局修改字体
 1. 有个开源字体库，在git,只能用那种字体
 2. 常规方法<br /><http://blog.csdn.net/u014608071/article/details/51154658>
+
+###与程序结构有关
+1. <a href="https://mp.weixin.qq.com/s?__biz=MzI5ODI5NDkxMw==&mid=2247485672&idx=1&sn=5b0455d4460a8eff943783c7fe3e4f89&chksm=eca94306dbdeca10bc4dcb5d0edeff423db28c4f8f57a9808d7746a4a5b675bec54f3bfe607f&mpshare=1&scene=23&srcid=1026fOlhP6QII3Mr7GW2PPZh#rd">Android程序结构</a>
+
+
 #GIT
 
 1. Git检测内存泄露的外库
 <https://github.com/square/leakcanary>
+2. <a href="https://github.com/google/cameraview">谷歌出品很厉害的相机,尚有100+bug,上次提交5个月之前</a>
+
 
 #书
 1. 深入理解Java虚拟机：JVM高级特性与最佳实践 第2版
