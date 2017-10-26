@@ -228,3 +228,6 @@ CTRL + CMD + F	全屏切换，期间导致过一次工具栏消失#
 6. 提示错误解决方案：option+enter
 6. 智能补全代码：ctrl+shift+space
 6. 补全代码（basic）：option＋space（原始为ctrl＋space 与系统快速搜索快捷键冲突，然后就自己改了键，我是仔setting里搜到basic然后remove掉再加上）。
+
+6. 快速出现简写提示:command+j  (快速出现 logd psdf 等)
+7. 生成 doc 注释:control+command+j(自己设置的)
