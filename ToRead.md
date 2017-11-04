@@ -31,6 +31,8 @@
 ###与程序结构有关
 1. <a href="https://mp.weixin.qq.com/s?__biz=MzI5ODI5NDkxMw==&mid=2247485672&idx=1&sn=5b0455d4460a8eff943783c7fe3e4f89&chksm=eca94306dbdeca10bc4dcb5d0edeff423db28c4f8f57a9808d7746a4a5b675bec54f3bfe607f&mpshare=1&scene=23&srcid=1026fOlhP6QII3Mr7GW2PPZh#rd">Android程序结构</a>
 
+###MVP
+1. <a href="http://www.jianshu.com/p/8fb4c0ae006e?utm_campaign=maleskine&utm_content=note&utm_medium=pc_all_hots&utm_source=recommendation">入门</a>
 
 #GIT
 

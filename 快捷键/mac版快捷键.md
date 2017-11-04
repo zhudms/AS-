@@ -45,8 +45,10 @@ Ctrl+i 实现方法
 Ctrl+shift+Q 查看当前光标所在的类 
 alt+回车 查看当前元素可以做的操作
 
-alt+⌘+L 格式化代码 
-Ctrl+Alt+O 自动导包 control+option+o
++ 自动导包 <br />
+ + win Ctrl+Alt+O 
+ + mac control+option+o
+
 Ctrl+Alt+I 自动缩进行
 
 ⌘+Alt+M 抽取方法 
@@ -119,7 +121,9 @@ F1: 查看类／方法的注释文档
 
 + ⌃Space: 当申明一个变量时，根据变量类型提示给出建议的变量名称，等还有其他很多智能提示作用<使用率非常高>
 
-+ ⌥⌘L: 代码格式化 <使用率非常高> | 对应window中的Ctrl+Alt+L
++  代码格式化 <使用率非常高> 
+ + mac (option+ command+L) ⌥⌘L
+ + win Ctrl+Alt+L
 
  
 
