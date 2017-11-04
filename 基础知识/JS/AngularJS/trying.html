@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    </script>
+</head>
+
+<!-- 加载特定应用 ng-app->myApp -->
+<!-- ng-controller 进行绑定, -->
+
+<body ng-app="myApp" ng-controller="trying">
+    <div>
+        {{name}}{{age}}
+    </div>
+</body>
+
+<!-- 应用开始的部分,页面为显示,即靠近输出端 -->
+<script type="text/javascript">
+    // 创建模块,模块名称为 myApp
+    var app = angular.module("myApp", []);
+    app.controller("trying", ["$scope", function($scope) {
+        $scope.name = "scope";
+        $scope.age = "33"
+
+    }])
+</script>
+
+</html>
