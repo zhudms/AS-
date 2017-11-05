@@ -5,16 +5,16 @@
     <meta charset="utf-8">
     <title>ECharts</title>
     <!-- 引入 echarts.js -->
-    <script src="echarts.min.js"></script>
+    <script src="libs/echarts.min.js"></script>
 </head>
 
 <body>
     <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="main" style="width: 800px;height:400px;background:#00ffff"></div>
-
+    <div id="main" style="width: 600px;height:400px;"></div>
     <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
+        // myChart.controller("echart", ["$scope", function($scope) {
         myChart.title = '柱状图框选';
 
         var xAxisData = [];
@@ -155,7 +155,7 @@
                     width: 100,
                     textStyle: {
                         fontSize: 12,
-                        color: '#fff'
+                        color: '#00f'
                     }
                 }
             });

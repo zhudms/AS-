@@ -46,7 +46,8 @@
 2. 
 
 #神网站
-1. 弘洋私人网站 </br><http://www.wanandroid.com/>
-2. 哔哩哔哩Android工程师</br><http://www.jianshu.com/u/f9d764ae73cc>
-3. 基础知识总结(精且全，最优看)</br><https://github.com/LRH1993/android_interview>
-4. 博客集锦，类似3</br><https://github.com/lizhangqu>
+1. <a href="http://www.wanandroid.com">弘洋私人网站 </br>
+2. <a href="http://blog.csdn.net/Luoshengyang/">罗升阳技术博客(文章超级好,源码分析)</a>
+2. <a href="http://www.jianshu.com/u/f9d764ae73cc">哔哩哔哩Android工程师</a>
+3. <a href="https://github.com/LRH1993/android_interview">基础知识总结(精且全，最优看)</a>
+4. <a href="https://github.com/lizhangqu">博客集锦，类似上条</a>

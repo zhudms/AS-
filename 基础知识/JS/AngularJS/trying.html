@@ -12,22 +12,91 @@
 
 <!-- 加载特定应用 ng-app->myApp -->
 <!-- ng-controller 进行绑定, -->
+<!-- ng-app="mApp" ng-controller="trying" -->
 
-<body ng-app="myApp" ng-controller="trying">
-    <div>
-        {{name}}{{age}}
+<body ng-app="mApp" ng-controller="trying">
+
+    <div ng-controller="p1">
+
+        {{name}}{{age}}{{location}}
     </div>
+
+    <input ng-model="aa">
+
+    </input>
+
+    <div>
+        {{aa}}hello
+    </div>
+
+    <!--   <div ng-app="mAppC1" ng-controller="c2"></div>
+
+        <div ng-app="mAppC2" ng-controller="c2,p3">
+            {{name}}{{age}}
+        </div>
+
+        <div ng-app="mAppC3" ng-controller="c2,p1">
+           {{name}}{{age}} 
+        </div>
+    </div>
+
+    <div ng-app="mAppC4" ng-controller="p3"></div> -->
+
 </body>
 
+
+
+
+
+</html>
 <!-- 应用开始的部分,页面为显示,即靠近输出端 -->
 <script type="text/javascript">
     // 创建模块,模块名称为 myApp
-    var app = angular.module("myApp", []);
+    var app = angular.module("mApp", []);
     app.controller("trying", ["$scope", function($scope) {
-        $scope.name = "scope";
+            $scope.name = "scope";
+            $scope.age = "33"
+
+        }])
+        .controller("p1", ["$scope", function($scope) {
+            $scope.location = "shenz"
+        }])
+        .controller("p2", ["$scope", function($scope, ) {
+
+        }])
+</script>
+
+<!-- <script type="text/javascript">
+    var p1 = angular.module("mAppP", []);
+    p1.controller("p1", ["$scope", function($scope) {
+        $scope.name = "hh"
+        $scope.name = $scope.name + "p1"
         $scope.age = "33"
+        $scope.location = "shenz"
+    }])
+</script> -->
+
+<!-- <script type="text/javascript">
+    // 创建模块,模块名称为 myApp
+    var app = angular.module("app2", []);
+    app.controller("trying", ["$scope", function($scope) {
+        // $scope.name = "scope";
+        // $scope.age = "33"
+
+    }])
+</script> -->
+
+
+<!-- <script type="text/javascript">
+    var c2 = angular.module("myAppC1");
+    c2.controller("c2", ["$scope", function($scope) {
 
     }])
 </script>
 
-</html>
+<script type="text/javascript">
+    var c2 = angular.module("myAppC1");
+    c2.controller("c2", ["$scope", function($scope) {
+
+    }]).controller("p1", ["$scope", function($scope) {}])
+</script> -->
