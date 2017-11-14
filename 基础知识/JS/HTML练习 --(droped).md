@@ -318,7 +318,7 @@ history.forward() - 与在浏览器中点击按钮向前相同<br />
 `<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
 </script>`
 
-8. <a href="http://www.w3school.com.cn/cssref/css_selectors.asp">CSS选择器参考手册</a>
+8. <a href="http://www.w3school.com.cn/cssref/css_selectors.asp">CSS选择器参考手册(JQ元素选择器 使用 css 元素选择器)</a>
 9. <a href="http://www.w3school.com.cn/cssref/index.asp">CSS参考手册</a>
 10. 在 CSS 定义中，这四种属性必须按照这样的排列顺序生效
 `<style type="text/css">
@@ -347,6 +347,7 @@ a:active {color: #0000FF}
 1.  <a href="http://www.w3school.com.cn/css/css_pseudo_classes.asp">CSS 中的伪类(看文档最后的伪类列表)</a>
 1. p:first-child i{background:yellow;}<br />
 	意义：**P标签的父元素下的第一个P标签的所有i标签设置背景色黄色。**
+1. <a href="http://www.cnblogs.com/polk6/archive/2013/05/28/3101571.html">id,name,class 的区别</a>
 
 3. first-line只能用于块元素
 4. <a href="http://www.w3school.com.cn/css/css_pseudo_elements.asp">其他伪元素（ToRead）</a>
@@ -377,6 +378,138 @@ This heading will be center-aligned
 
 
 
+
+###块元素与行元素列表
+
+```<address>	定义地址
+<caption>	定义表格标题
+<dd>	定义列表中定义条目
+<div>	定义文档中的分区或节
+<dl>	定义列表
+<dt>	定义列表中的项目
+<fieldset>	定义一个框架集
+<form>	创建 HTML 表单
+<h1>	定义最大的标题
+<h2>	定义副标题
+<h3>	定义标题
+<h4>	定义标题
+<h5>	定义标题
+<h6>	定义最小的标题
+<hr>	创建一条水平线
+<legend>	元素为 fieldset 元素定义标题
+<li>	标签定义列表项目
+<noframes>	为那些不支持框架的浏览器显示文本，于 frameset 元素内部
+<noscript>	定义在脚本未被执行时的替代内容
+<ol>	定义有序列表
+<ul>	定义无序列表
+<p>	标签定义段落
+<pre>	定义预格式化的文本
+<table>	标签定义 HTML 表格
+<tbody>	标签表格主体（正文）
+<td>	表格中的标准单元格
+<tfoot>	定义表格的页脚（脚注或表注）
+<th>	定义表头单元格
+<thead>	标签定义表格的表头
+<tr>	定义表格中的行
+
+行内元素列表
+<a>	标签可定义锚
+<abbr>	表示一个缩写形式
+<acronym>	定义只取首字母缩写
+<b>	字体加粗
+<bdo>	可覆盖默认的文本方向
+<big>	大号字体加粗
+<br>	换行
+<cite>	引用进行定义
+<code>	定义计算机代码文本
+<dfn>	定义一个定义项目
+<em>	定义为强调的内容
+<i>	斜体文本效果
+<img>	向网页中嵌入一幅图像
+<input>	输入框
+<kbd>	定义键盘文本
+<label>	标签为 input 元素定义标注（标记）
+<q>	定义短的引用
+<samp>	定义样本文本
+<select>	创建单选或多选菜单
+<small>	呈现小号字体效果
+<span>	组合文档中的行内元素
+<strong>	语气更强的强调的内容
+<sub>	定义下标文本
+<sup>	定义上标文本
+<textarea>	多行的文本输入控件
+<tt>	打字机或者等宽的文本效果
+<var>	定义变量
+```
+
+
+####表达式类型
+ + 接 boolean :
+	 + 	ng-show="" 可以直接写表达式
+	 + ng-
+
+	 
+	 
+####依赖注入
+
++ 可被依赖注入对象:
+	+ value
+	+ factory
+	+ service
+<li>provider</li>
+<li>constant </li>
+</ul>
++ <a href="http://www.cnblogs.com/lyy-2016/p/5841246.html">依赖注入方式</a>
++ <a href="http://www.jb51.net/article/92624.htm">依赖注入</a>
+
+
+###JS 中数字边界值
+1. 上溢(overflow)(超过最大值,或超过最小值):infinity,-Infinity
+
+3. 基于正负 infinity 的运算结果为本身
+4.  下溢(underflow):结果无限接近零而无法表示时,直接返回0;当负数发生下溢时,返回负零,这个值几乎和正常零一致,程序员很少使用到
+5. 被零除并不报错,返回 无穷大 或 负无穷大.
+6. 零除以零无意义,无穷大除以无穷大,给任意负数做开方运算,算数运算符与不是数字或无法转换为数字的操作数一起使用,结果为非数字值,均用 NaN表示.
+7. NaN 的特殊性:与任何值(包括自身)都不相等,应使用 x!=x 来判断,当且仅当 x=NaN 时,参数才为 true;isNaN(),当参数是 NaN 或非数字值(比如字符串和对象)时返回 true;JS 中的 isFinite() 在参数不是 NaN,Infinity 或-Infinity 的时候返回 true;
+8. 负零:
+	+ 和正零相等
+	+ 只在作为除数时有区别:
+	```
+	var zero=0;
+	var negz=-0;
+	zero===negz   (true)
+	1/zero===1/negz  (false)(正无穷和负无穷不相等)
+	```
+9. js中任意值转换成 bool
+   + underfined,null,0,-0,NaN,""会被转换成 false
+   + 其他所有值,包括对象和数组都被转换成 true
+10. null 和 undefined 都表示值的空缺
+	+ 往往可以互换
+	+ 使用==判断为真值,需要使用===区分
+	+ 都不包含任何属性或方法
+	+ 对变量或属性赋值,或作为参数传入函数,应使用 null
+11. 两个对象的比较与 java 的规则一致
+12. 基础类型中,数字更偏基础类型,不同类型之间运算会偏向转换成数字
+13. 一元'+'运算符,只有一个操作数时,会将数字转换成字符串
+14. 使用 Number()方法需要严格数字字符串,只能基于十进制进行转换,不能出现非法尾随字符;parseInt()和 parseFloat()是全局函数,可忽略前面的空格前导,和后面的非法字符,若第一个非空格字符是非法数字直接量,则返回 NaN,当字符串以'0X'或'0x'开头时,自动解释成十六进制数,
+15. 所有对象均转换为 true,**new Boolean(false) 是对象,而不是原始值,所以将转换为 true**
+16. 对象到原始值的转换,通过调用待转换对象的方法完成的,且此规则只适用于本地对象,宿主对象(例如由 Web浏览器定义的对象)根据各自的算法可以转换成字符串和数字
+17. toString()方法
+	+ 数组类<br/>将每个数组元素转换为一个字符串,并使用逗号拼接后返回此字符串.
+	+ 函数<br />方法返回这个函数的实现定义的表示方式(几乎就是返回函数体的实现)(实际上,这里的实现方式是将用户定义的还书转换为JS 源代码字符串)
+	+ Date<br />返回一个可读的(可被 JS 解析的 )日期和时间字符串
+	+ RegExp<br />将 RegExp对象转换为表示正则表达式直接量的字符串
+17. valueOf() 这个方法未详细定义.默认只返回这个对象本身,(数组,函数,正则表达式,简单地继承了这个默认方法)
+	+ Date 类会返回1970年一类的毫秒数
+	
+18. 对象到字符串的转换步骤:
+	1. 当 toString() 方法能返回一个原始值,则,JS 将这个值(若不是字符串)转换为字符串,并返回这个字符串.
+	2. 否则,当 valueOf()方法能返回一个原始值,则,JS 将这个值转换为字符串并返回.
+	3. 否则,JS 无法从 toString()或 valueOf() 方法中获得一个原始值,则抛出类型错误异常
+19. 对象到数字的转换:
+	1. 先尝试 valueOf()
+	2. 再尝试toString()方法
+	3. 否则抛出类型错误异常
 
 
 
