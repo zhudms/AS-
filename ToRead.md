@@ -51,3 +51,7 @@
 2. <a href="http://www.jianshu.com/u/f9d764ae73cc">哔哩哔哩Android工程师</a>
 3. <a href="https://github.com/LRH1993/android_interview">基础知识总结(精且全，最优看)</a>
 4. <a href="https://github.com/lizhangqu">博客集锦，类似上条</a>
+
+#各种效果库
+1.
+<a href="https://mp.weixin.qq.com/s?__biz=MzIxNzU1Nzk3OQ==&mid=2247484342&idx=1&sn=d1fbc2e592eaae8bb6140a4a7b6be933&chksm=97f6bd02a0813414a76ff8fea20f3f4b592701b49b15f2e88326ab508ec434577e9657c4baad&scene=21#wechat_redirect">很多通用效果</a>
