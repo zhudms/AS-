@@ -163,33 +163,33 @@ StringBuffer stringBuffer = new StringBuffer();
 + OPTION + CMD + O	
 + 查找工程内的文件或方法或字段 CMD+0
 + 查找工程内的类文件 CMD + P	Show parameters for selected method
-OPTION + CMD + L	Reformat code
-CMD + N	Generate method
-CMD + R	相当于搜索替换
-CMD + ,	打开Preferences
-CMD + ;	打开Project Structure
-CMD + X	删除行
-CMD + D	复制行
-CTRL + J	显示该方法或类的api
-CMD + [ 返回上一次编辑位置
-CMD + ]	前进到上一次编辑位置
-CTRL + P	鼠标移动到上一行
-CTRL + N	鼠标移动到下一行
-ALT + ENTER	导入包，自动修正（未验证）
-SHIFT + CMD + [	previous tab
-SHIFT + CMD + ]	next tab 
-ALT + 向上键	选择当前光标处所在单词或行
-CTRL + ALT + H	查找调用的位置
-ALT + SHIFT + UP/DOWN	上下移动代码
-CTRL + O	快捷覆写方法
-ALT + CTRL + O	清除无效引用
-ALT + ENTER	提示错误解决方案(在抽取局部变量时，调出对话框后选第二个)
-CMD + SHIFT + F	相当于 Eclipse 的 Ctrl + h
-CTRL + T	调出Refactor选项框，可以抽取方法、成员变量等
-CMD + ALT + V	相当于Eclipse的Ctrl + 2 ,L  自动生成变量
-CMD + ALT + F	抽取成成员变量
++ OPTION + CMD + L	Reformat code
++ CMD + N	Generate method
++ CMD + R	相当于搜索替换//需要先 CMD+F 查找,再连用 CMD+R 进行替换
++ CMD + ,	打开Preferences
++ CMD + ;	打开Project Structure
++ CMD + X	删除行
++ CMD + D	复制行
++	CTRL + J	显示该方法或类的api
++	CMD + [ 返回上一次编辑位置
++	CMD + ]	前进到上一次编辑位置
++	CTRL + P	鼠标移动到上一行
++	CTRL + N	鼠标移动到下一行
++	ALT + ENTER	导入包，自动修正（未验证）
++	SHIFT + CMD + [	previous tab
++	SHIFT + CMD + ]	next tab 
++	ALT + 向上键	选择当前光标处所在单词或行
++	CTRL + ALT + H	查找调用的位置
++	ALT + SHIFT + UP/DOWN	上下移动代码
++	CTRL + O	快捷覆写方法
++	ALT + CTRL + O	清除无效引用
++	ALT + ENTER	提示错误解决方案(在抽取局部变量时，调出对话框后选第二个)
++	CMD + SHIFT + F	相当于 Eclipse 的 Ctrl + h
++	CTRL + T	调出Refactor选项框，可以抽取方法、成员变量等
++	CMD + ALT + V	相当于Eclipse的Ctrl + 2 ,L  自动生成变量
++	CMD + ALT + F	抽取成成员变量
 
-CMD + SPACE 相当于 Eclipse 的ALT + /，不过与系统的切换输入法冲突，修改快捷键搜索 Basic
++ CMD + SPACE 相当于 Eclipse 的ALT + /，不过与系统的切换输入法冲突，修改快捷键搜索 Basic
 ALT + /	自动补全最后一个方法名(原)
 
 keymap —>Reformat Code 添加ALT + F
@@ -222,7 +222,6 @@ CTRL + CMD + F	全屏切换，期间导致过一次工具栏消失#
 6. 快捷定位到行首／尾：cmd＋left/right
 6. 注释代码：cmd＋／（／／）cmd＋option＋／（／＊＊／）
 6. 快捷最近打开：cmd+e
-6. 查找＋替换：cmd＋r
 6. 查找：cmd＋f
 6. 来回你刚刚看的地方：cmd+option+left/right
 6. 点进去看的：cmd+down
