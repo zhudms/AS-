@@ -1,14 +1,14 @@
- Android Studio ×Ô¶¯Éú³É serialVersionUID
-2013-10-16 16:44 12315ÈËÔÄ¶Á ÆÀÂÛ(0) ÊÕ²Ø ¾Ù±¨
-°æÈ¨ÉùÃ÷£º±¾ÎÄÎª²©Ö÷Ô­´´ÎÄÕÂ£¬Î´¾­²©Ö÷ÔÊĞí²»µÃ×ªÔØ¡£
+ Android Studio è‡ªåŠ¨ç”Ÿæˆ serialVersionUID
+2013-10-16 16:44 12315äººé˜…è¯» è¯„è®º(0) æ”¶è— ä¸¾æŠ¥
+ç‰ˆæƒå£°æ˜ï¼šæœ¬æ–‡ä¸ºåšä¸»åŸåˆ›æ–‡ç« ï¼Œæœªç»åšä¸»å…è®¸ä¸å¾—è½¬è½½ã€‚
 
 
 
 http://stackoverflow.com/questions/12912287/intellij-idea-generating-serialversionuid
 
 
-¹´ÉÏ¾ÍOKÁË£¡¡«File => Settings... => Inspections => Serialization issues => Serializable class without 'serialVersionUID'
+å‹¾ä¸Šå°±OKäº†ï¼ï½File => Settings... => Inspections => Serialization issues => Serializable class without 'serialVersionUID'
 
 
 
-ÕÒ²»µ½Ö±½ÓÔÚPreferenceÖĞÖ±½ÓËÑË÷Serialization issues£¡Ö±½ÓAlt+enterÖ±½Ó¾ÍÌáÊ¾ÁË£¡
+æ‰¾ä¸åˆ°ç›´æ¥åœ¨Preferenceä¸­ç›´æ¥æœç´¢Serialization issuesï¼ç›´æ¥Alt+enterç›´æ¥å°±æç¤ºäº†ï¼
