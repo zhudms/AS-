@@ -9,12 +9,38 @@
 </head>
 
 <body>
-    <button id="show" onclick="showMessage()">
+    <button id="show" text="ads" onclick="showMessage()">
 
     </button>
     <script>
         function showMessage() {
-            alert("asdf");
+            // alert("asdf");
+            // unshift();
+            // sortText();
+            subArray();
+
+        }
+
+
+        function unshift() {
+            var a = Array();
+            a.unshift("1", "2");
+            a.unshift("3");
+            alert(a.pop() + a.pop() + a.pop());
+        }
+
+
+        function sortText() {
+            var value = [0, 1, 22, 10, 15];
+            value.sort();
+            alert(value);
+        }
+
+
+        function subArray() {
+            var lists = [11, 1, 2, 3, 4, 5, 6];
+            var sub = lists.slice(0, 5);
+            alert(sub);
         }
     </script>
 </body>
