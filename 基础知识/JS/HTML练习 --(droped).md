@@ -1007,6 +1007,7 @@ This heading will be center-aligned
 		
 1. **Function**
 	+ JS 中 function 实际上是一个对象,每个函数都是 function 的实例,也有属性和方法,所以函数名是一个指向对象的指针,所以函数名也可以省略,或直接给对象赋值
+	+ 函数实际上是 Function 类型的实例
 	+ 使用 Function 的构造函数声明函数的方式不被推荐,因为会引起两次解析,而消耗性能(最后一个传入的参数被当成函数体,一次常规解析ECMASccript 语句,一次解析传入构造方法中的参数)
 		```
 		var sum=new Function("numb1","nmb2","return numb1+numb2");//不推荐
@@ -1089,8 +1090,164 @@ This heading will be center-aligned
 	+ String Number Boolean 三种类型
 	+ 对基本类型执行对象才有的方式时,系统会自动将基本类型包装成包装类型,执行过方法后再销毁包装对象,包装对象的生命周期,只在执行方法时,执行完会立刻被销毁.所以,不能在运行时为基本类型添加属性和方法 ,除非手动显示包装它们.
 	+ 对基本包装类型的实例调用 typeOf 会返回 object,而基本类型的对象会被统一转换为 true	+ Object 构造函数会根据传入的基本类型构建对应的包装类型:numb-->Number,string-->String,boolean-->Boolean
-	+ 
+	+ 都重写了toString(),valueOf(),等方法
+		+ Boolean:容易引起混乱,建议永远不要用
+		+ NUmber:
+			+ toFix(numb) :指定小数点后保留几位小数(20位为标准规定,可能有浏览器支持更多位数),适合处理货币值(IE8对[-0.94,-0.5],[0.5,0.94]的数值舍入有问题,都会返回0,IE 9修复了这个问题)
+			+ toExponentail();返回以乘数法表示的数字(e)
+			 	```var a=10; alert(a.toExponentail())//1.0e+1```
+			+ toPrecision():选择合适的格式返回,接收一个参数,指定全部数组位数(不包括指数部分)
+		+ String 
+			+ 即使字符串中包含了双字节字符(不是占一个字节的 ASCII 字符),每个字节也仍然算一个字符
+			+ 字符方法:
+				+ charAt()(返回当字符字符串)
+				+ charCodeAt()
+				+ []:ECMAScript 5也规定了使用[]访问特定字符的方法```var a="asdf";alert(a[2]);//"d"```,这种使用方法,在老版本浏览器中可能返回 underfined.
+			+ 字符串方法
+				+ concat():拼接,不改变原字符串,返回一个新字符串,可接收多个参数,会逐个拼接
+				+ slice(),substring(),substr():不改变原字符串,返回一个新字符串,都可加收1/2个参数,第一个参数为起始位置,slice,substring第二个参数是结束位置,substr()第二个参数为新串长度
+				+ 当你传入负数时:
+					+ slice:将负值与 length 相加得到新值
+					+ substring:都转换为0,结果得到""
+					+ substr :若第一个参数为负值,则与 length 相加,若第二个参数为负数,则转换为0 				
+			+ 字符串位置方法:indexOf ,lastInDexOf()(反向搜索指定字符串), 都可接收一/两个参数(目标字符串,起始位置(可选)),当不存在时,返回-1
+		   + trim():返回一个字符串副本,不会改变原始字符串,部分浏览器(Firefox3.5+,Safari 5+,Chorme8+)支持 trimLeft(),trimRight()方法.
+		   + 大小写转换:toLowerCase(),toUpperCase(), 经典方法;toLocalLowerCase(),toLocalUpperCase(),少数语言(例如土耳其语)会为 Unicode 大小写转换应用特殊的规则,此时必须使用针对特定地区的方法以保证转换结果正确,当环境未知时,这种方法更稳妥
+		   + 模糊匹配方法:match(),search()
+		   + 替换:replace()
+		   + 分隔:split(1.分隔符:String,或 RegExp 对象;2.返回数组最大长度),此方法在未找到捕获组时,不同浏览器会有不同的表现,有些老版浏览器甚至未执行 ECMAScript 的规范
+		   + localeCompare();返回两个字符串按字母排序,在字母表中的排序位置 
+		   
+		   		```
+		   		s1.localeCompare(s2) 
+		   		// s2 先于s1 -->正数	
+		   		// s2 等于s1 -->0
+		   		// s2 后于s1 -->负数
+		   		虽然整数,负数通常返回+1,-1,但这仍然依赖浏览器的实现,所以最好不要用数值判断
+		   		```
+		   	+ fromCharCode("") 接收一或多个字符编码,生成字符串
+		   	+ HTML 方法:P130 尽量不要使用这些方法,因为这些标记很多无法表达语义.
+1. 单体内置对象:
+	+ 由ECMAScript 实现提供的,不依赖宿主环境的对象,这些对象在ECMAScript 程序执行之前就已经存在了,不必显示地实例化内置对象,因为它们已经实例化了 .Object,Array,String 等都属于单体内置对象
+	
+	3. Global:终极的根对象,所有的所谓全局对象,全局属性,都是 global 的属性和方法,例如:isNaN(),isFinite(),parseInt(),parseFloat()等都是 global 的方法
+		+ URI编码方法:encodeURI(),encodeURIComponent(),对 URI 进行编码,使用 UTF-8替换所有无效字符
+			+ encodeURI: 常用于对整个 URI编码,不会对本身属于 URI 的字符进行编码,例如/,?,#,:
+			+ encodeURIComponent: 常用于对部分URI编码,对任何非标准字符编码
+			+ 相对应的解码方法为:decodeURI(),decodeURIComponent()
+			+ 这四个方法替换了在 ECMAScript3中废弃的escape()和 unescape()
+		+ eval():	接收要执行的代码,程序运行到这里时,会执行传入的代码,这些代码会被认为是包含该次调用的执行环境的一部分,因此,与该环境具有相同的作用域链,所以可以使用包含在环境中定义的变量和方法,也可以在 eval()中定义方法/变量,而在相同作用域下使用该方法/变量
+			+ eval 中定义的方法或变量不会被提升,因为在执行之前它们只是字符串,在执行中创建
+			+ 在严格模式下,外部无法访问 eval 中定义的方法或变量
+		+ 属性:
+	
+			1.  特殊值<br /></n>
+				+ undefined 
+				+ NaN 
+				+ Infinity 
+	
+			2. 构造函数
+				+ Object
+				+ Array
+				+ Function
+				+ Boolean
+				+ String
+				+ Number
+				+ Date
+				+ RegExp
+				+ Error
+				+ EvalError
+				+ RangeError
+				+ ReferenceError
+				+ SyntaxError
+				+ TypeError
+				+ URIError
+		+ ECMAScript 
+		+ window 对象:ECMAScript 没有致命如何访问 global对象, 但浏览器都是将这个全局对象作为 window 对象的一部分实现的 ,所以所有全局声明的所有变量和函数,都成了 window对象的属性
+		+ 在没有给函数明确指定this值的情况下(将函数添加为对象的方法,或调用 apply,call方法),this值等于global对象
+	4. Math
+		+  属性:各种对数,不记了
+		+  方法:
+			+  min(),max():可接受(1/2个参数,第一个可选,指定作用域)
+			+  ceil():向上舍入(变大)
+			+  floor():向下舍入(变小)
+			+  round():标准四舍五入
+			+  random():生成一个随机数(0,1)
+			+  *abs(numb):绝对值*
+			+  *exp(numb):返回 Math.E 的 numb 次幂*
+			+  *log(numb):返回自然对数*
+			+  *pow(numb,puwer):numb的 poewr 次幂*
+			+  *sqrt(numb):numb 的平方根*
+			+  *acos(),asin(),atan(),atan2(y,x),cos(),sin().tan()//由于浏览器可能有不同实现,所以结果可能有不同精度*
+1. JS中的面向对象思想
+	2. 对象:可以抽象成散列表,一组键值对,值可以是基本类型或对象(函数也是对象)
+	3. 属性类型:
+		4. 数据属性(对象的每个属性都有这四个特征值,定义其读写及访问特征):
+			+ [[Configurable]] :是否通过 delete 删除属性从而重新定义属性,能否修改属性的特性,能否把属性修改为访问器属性,平时直接在对象上定义的属性,这个值默认值为 true;
+			+ [[Enumerable]]:能否通过 for-in 循环返回属性,默认为 true;
+			+ [[writable]]:能否修改属性值,默认为 true;
+			+ [[value]]:包含这个属性的数据值,读写属性值的时候,从这个位置读写,默认值为 undefined.
+			+ 要修改属性默认的特征,需要使用 ECMAScript5 的 Objext.defineProperty()方法.接收三个参数(属性所在的对象,属性名称,描述符对象(configurable,enumerable,writeable,value 中的一个或多个))
+			
+				```
+				var person={};
+				Object.defineProperty(person,"name",{writable:false,value:"Nicho"});
+				//注意定义单个属性和多个属性的方法名称是不一样的
+				```
+			
+			+ 当把特征值设置成只读或不可操作后,在非严格模式下,对其赋值/操作等将被忽略,在严格模式下,会导致错误 
+			+ 当把 configurable (是否可配置)修改成 false 后,就无法再修改成可配置,此时,除 value 还可再修改,其他属性均不能修改
+			+ 在调用Objext.defineProperty()时,若不显式指定, Configurable,Enumerable, writable都是默认 false 的
+			+ 多数情况下,没必要调用Objext.defineProperty()提供的这些高级属性, 但是对理解很有帮助
+		+ 访问器属性:
+			+ [[Configurable]] :是否通过 delete 删除属性从而重新定义属性,能否修改属性的特性,能否把属性修改为访问器属性,平时直接在对象上定义的属性,这个值默认值为 true;
+			+ [[Enumerable]]:能否通过 for-in 循环返回属性,默认为 true;
+			+ [[get]]: 读取方法,默认值为 undefined
+			+ [[set]]:写入方法,默认值为 undefined
 				
+				```
+				var book={
+					_year=2004;
+					edition:1
+				}
+				
+				Object.definedProperty(book,"year",{
+					get:function(){
+						return this._year;
+					},
+					set:function(newValue){
+						if(newValue>2004){
+							this._year=newValue;
+							this.edition+=newValue-2004;
+							}
+					}
+				}});
+				
+				book.year=2005;
+				alert(book.edition);//2
+				
+				这是使用访问器属性的常用方式,即修改一个属性的值会导致另一个值的改变
+				
+				
+				```
+				***year 前加下划线,是常用的一种标识符,表示只能通过对象方法访问的属性***
+			+ 当只指定[[get]]方法而不指定 set 方法表示只读,写操作在非严格模式下被忽略,在严格模式下会导致报错,反之亦然.不可读属性在非严格模式下返回 undefined
+			+ 在浏览器早期版本中要创建访问器属性,一般使用两个非标准方法:__defineGetter__()和__defineSetter__()(用法完全一样)
+			+ 在不支持 Object.defineProperty()方法的浏览器中无法修改Configurable,Enumerable两个属性
+			+ 定义多个属性:Object.defineProperies()方法,一次定义多个属性,就是平时那样的写法
+		+ 读取属性的特征:Object.getOwnPropertyDescriptor(),取得所指定属性的描述符,访问器属性和数据属性具有不全相同的属性
+	+ 原型模式:对象的创建模式有多种方式,但是经过摸索,原型模式是最适合的.
+		+ 我们创建的每个函数都有一个 propotype(原型)属性,这个属性是一个指向对象的指针(对象中包含可以由特定类型对象共享的属性和方法), 不必在构造函数中定义对象的实例信息,而将这些都添加到 propotype 对象中
+		+ 理解原型对象:只要创建了一个新函数,就会根据一组特定的规则为该函数创建一个 proprtype属性,默认情况下,所有 propotype 属性都会自动获得一个constructor(构造函数)属性,这个属性包含一个指向prototype属性所在函数的指针,通过这个构造函数,可以继续为原型对象添加其他属性和方法
+		+ 创建自定义的构造函数之后,原型对象默认只会取得 constructor 属性,其他方法都是从 Object 继承来的.
+		+ 重要的一点:prototype 连接存在于实例与构造函数的原型对象之间,而不是实例与构造函数之间(实例不与构造函数发生直接联系,而只与构造函数的原型对象发生直接联系),```Object.getPrototypeOf(person1)==Person.prototype;//true(persion1的prototype和 Person 的 prototype 对象是同一个对象)```
+		+ 当向实例对象中添加和原型对象中含有相同名称的属性时,会在实例对象中添加此属性,而不会修改原型对象中的属性;在属性搜索过程中,会先搜索实例对象中是否存在某属性,若存在则直接返回,不存在则继续搜索原型对象中是否包含此值,所以,实例对象中的值会屏蔽原型对象中的属性而不会修改它,除非使用 delete 操作符,删除实例中的属性,否则无法恢复访问原型对象.```语法:delete person1.name```		+ hasOwnProperty("") 当属性存在于实例中时返回 true```person1.hasOwnProperty("name")```
+		+ Object.getOwnPropertyDescriptor()只能用于实例属性,要获取原型属性的描述符,必须在原型对象上调用 Object.getOwnPropertyDescroptor()方法
+		+ 原型与 in 操作符:
+			+ 单独使用:在通过对象能访问给定属性时返回 true,无论属性在原型或实例中 
+			+ 在for-in 循环中,返回所有能够通过对象访问的,可枚举的属性,包括所有存在于原型对象中的属性,和实例中的属性,屏蔽了原型中不可枚举属性,所有开发人员定义的属性都是可枚举的(IE8及早期版本除外)
+			+ Object.keys():接收一个对象作为参数,返回一个包含所有可枚举属性的字符串数组(使用Person.prototype 调用,返回原型对象中的属性,使用实例调用,返回实例中定义的,若实例中无新定义,则返回"")
+			+ Object.getOwnPropertyNames():获取所有实例属性,无论是否可枚举(也是无新增则为"")
 				
 				
 				
