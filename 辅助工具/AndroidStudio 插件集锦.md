@@ -17,7 +17,7 @@
 	+  安装:在线安装方式,直接在 plugin 中搜索
 	+  使用:在项目任意文件上右键,选择此插件,选择执行的 module
 	+ <a href="http://blog.csdn.net/fesdgasdgasdg/article/details/78108169?utm_source=tuicool&utm_medium=referral">参考</a>
-4. ButterKnife 自动生成代码工具
+4. **ButterKnife** 自动生成代码工具
 	+ 安装:在线安装方式,在 Plugins 中搜索 Android ButterKnife Zelezny,直接安装使用,并重启
 	+ 使用:在当前页面布局的 layout id 上右键,选择此插件,可以修改控件名称,但无权限控制,注意,手动初始化 ButterKnife 不能忘
 	+ <a href="https://www.cnblogs.com/zhengjunfei/p/5910497.html">参考</a>
