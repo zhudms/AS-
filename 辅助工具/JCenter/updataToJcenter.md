@@ -32,5 +32,7 @@
 
 每个单独的 lib 最好都单独创建项目提交,不然只提交一个 lib 时还要屏蔽其他项目的 build.gradle 中的配置,会疯的
 
+编译会生成.aar .jar 等文件,都在maven 仓库中,可以通过项目页面右上角地址访问<a href="https://dl.bintray.com/zhudms/maven">仓库</a>
+
 
 
