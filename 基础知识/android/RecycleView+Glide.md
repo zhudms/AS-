@@ -4,7 +4,7 @@
 1. 添加 Adapter 前必须先添加 Layoutmanager ,不然不显示
 	
 	```  
-		view.setLayoutManager(new LinearLayoutManager(MainActivity.this));   
+	view.setLayoutManager(new LinearLayoutManager(MainActivity.this));   
 	```
 
 ###Adapter
@@ -14,11 +14,11 @@
 
 	```
 	 @Override
-	    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-	        View v = LayoutInflater.from(mContext).inflate(R.layout.pic_item, parent, false);
-	        MyHolder holder = new MyHolder(v);
-	        return holder;
-	    }
+    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(mContext).inflate(R.layout.pic_item, parent, false);
+        MyHolder holder = new MyHolder(v);
+        return holder;
+    }
 	```
 	
 	```
@@ -47,57 +47,62 @@
 
 	+ 指定尺寸会流畅很多
 	+ 不使用缓存也会有一定程度优化
-	+ 在 View 不再显示在页面上时,停止对应的加载任务
+	+ 在 View 不再显示在页面上时,停止对应的未完成加载任务
 	
-			```
+			
 			@Override
-			    public void onViewRecycled(MyHolder holder) {
-			        super.onViewRecycled(holder);
-			        Glide.with(mContext).clear(holder.itemView);
-			//        ToastU.ht(mContext, "OnRecycled");}
-			```
+		    public void onViewRecycled(MyHolder holder) {
+		        super.onViewRecycled(holder);
+		        Glide.with(mContext).clear(holder.itemView);
+		//        ToastU.ht(mContext, "OnRecycled");}
+		
 
 3. 处理滑动图片串位问题
 	+  在 holder 中添加Tag字段,存储唯一标识(或使用 setTag(id,tag)方法也可以),并在 onBindViewHolder()方法中配合代码使用
 	+  ```
 //tag + 尺寸指定 + 占位符  解决图片串位问题(使用不修改尺寸属性无效),-->必须确定内存中缓存的是原始图片还是屏幕上显示的图片大小
 
-            if (holder.getmTag() != null && holder.getmTag().equals(picPaths.get(position))) {//解决图片错位问题
-                //此处判断必须和下面设置占位图一起使用才有效(只使用占位图而不指定图片大小时,在复用中会出现图片大小错位,持续滑动,最终会使所又能图片都变成占位图的大小)
-                return;
-            }
-            holder.setmTag(picPaths.get(position));
+        if (holder.getmTag() != null && holder.getmTag().equals(picPaths.get(position))) {//解决图片错位问题
+            //此处判断必须和下面设置占位图一起使用才有效(只使用占位图而不指定图片大小时,在复用中会出现图片大小错位,持续滑动,最终会使所又能图片都变成占位图的大小)
+            return;
+        }
+        holder.setmTag(picPaths.get(position));
 
-            RequestOptions cropOptions = new RequestOptions();	
-            		            cropOptions=cropOptions.placeholder(R.drawable.ic_launcher_foreground);  
-            		            Glide.with(mContext)
-                    .load(picPaths.get(position))
-                    .apply(cropOptions)
+        RequestOptions cropOptions = new RequestOptions();	
+        		            cropOptions=cropOptions.placeholder(R.drawable.ic_launcher_foreground);  
+        		            Glide.with(mContext)
+                .load(picPaths.get(position))
+                .apply(cropOptions)
 
-                    .into(holder.getmPic());
-                    }
+                .into(holder.getmPic());
+                }
                     ```
             
 ### Glide 用法
-1.要在 RecycleView中显示占满宽度,需要在 item 的 ImageView 中添加属性**android:adjustViewBounds="true"**和**android:scaleType="fitCenter"**
+1. 要在 RecycleView中显示占满宽度,需要在 item 的 ImageView 中添加属性**android:adjustViewBounds="true"**和**android:scaleType="fitCenter"**才能实现,图片会被缩放到相同大小,使用最大图片的宽高,当使用**android:adjustViewBounds=" true"**和**android:scaleType="centerInside"**时,可以保证按图片原始大小显示,会有一个边有边距,边距取决于图片比例和屏幕,图片宽度大于屏幕时,上下有边距,但是小于屏幕时,不会放大到屏幕尺寸
+2. Gldle V3版本和 V4版本差异较大,看教程的时候注意,目前官网上有 V4的文档,但是有些关键点可能不是很清晰
+3. V4 版本中将很多 V3可以直接使用的方法抽到 RequestOptions 中了,使用更加清晰
+4. override(Target.SIZE_ORIGINAL)使用图片原本尺寸,源码里使用的是 Integer.MAX 的值
 
-```
-            RequestOptions cropOptions = new RequestOptions();
-//            cropOptions= cropOptions.fitCenter();//在 xml 中指定也可生效
-            cropOptions= cropOptions.placeholder(R.drawable.ic_launcher_foreground);
-            cropOptions=  cropOptions.dontAnimate();
-            cropOptions=   cropOptions.dontTransform();
-            cropOptions=   cropOptions.error(R.drawable.ic_launcher_background);
-
-            cropOptions=    cropOptions.override(Target.SIZE_ORIGINAL);//(加上尺寸指定,滑动顺畅很多)只使用占位图而不指定图片大小时,在复用中会出现图片大小错位,持续滑动,最终会使所又能图片都变成占位图的大小
-
-            Glide.with(mContext)
-                    .load(picPaths.get(position))
-                    .apply(cropOptions)
-
-                    .into(holder.getmPic());
-                    ```
+	```
+	RequestOptions cropOptions = new RequestOptions();
+	//            cropOptions= cropOptions.fitCenter();//在 xml 中指定也可生效
+	cropOptions= cropOptions.placeholder(R.drawable.ic_launcher_foreground);
+	cropOptions=  cropOptions.dontAnimate();
+	cropOptions=   cropOptions.dontTransform();//没什么效果
+	cropOptions=   cropOptions.error(R.drawable.ic_launcher_background);
+	
+	cropOptions=    cropOptions.override(Target.SIZE_ORIGINAL);//(加上尺寸指定,滑动顺畅很多)只使用占位图而不指定图片大小时,在复用中会出现图片大小错位,持续滑动,最终会使所又能图片都变成占位图的大小
+	
+	Glide.with(mContext)
+	        .load(picPaths.get(position))
+	        .apply(cropOptions)
+	
+	        .into(holder.getmPic());
+         
+    ```
                     
-            		            
-
+5. 
+                    
+ 
 
