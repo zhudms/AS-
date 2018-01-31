@@ -102,7 +102,7 @@
          
     ```
                     
-5. 
+5. 注册 Glide 使用的 Context 不能使用 application 	的 Context 否则会使图片的生命周期延长到整个应用周期,无法被回收,导致 OOM
                     
  
 
