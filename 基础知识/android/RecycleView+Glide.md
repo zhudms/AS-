@@ -103,6 +103,26 @@
     ```
                     
 5. 注册 Glide 使用的 Context 不能使用 application 	的 Context 否则会使图片的生命周期延长到整个应用周期,无法被回收,导致 OOM
+6. 如果可以请不要使用**SimpleTarget**,以下代码在使用SimpleTarget方式加载时,会导致占位图不显示,图片错位,实测,在 options 中指定屏幕宽度可以使图片原比例缩放到屏幕宽度,只要不指定尺寸,尺寸一定会有问题,只指定一个尺寸不会使图片变成方形
+ ```
+ Glide.with(mContext)
+//                .asBitmap()
+                .load(picPaths.get(position))
+                .apply(cropOptions)
+//                .into(new BitmapImageViewTarget(holder.getmPic()));
+                .into(holder.getmPic());
+//                .into(new SimpleTarget<Bitmap>() {
+//                    @Override
+//                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+//
+//                        if (holder.getmTag() == picPaths.get(position)) {
+//
+//                            holder.getmPic().setImageBitmap(BitmapU.getWinWidthBitmap(mContext, resource));
+//                        }
+//
+//                    }
+//                });
+```
                     
  
 
