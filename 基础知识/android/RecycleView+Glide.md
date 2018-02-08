@@ -126,3 +126,6 @@
                     
  
 
+<a href="https://github.com/zhudms/MPicLibDemo">selfdemo</a>
+<a href="https://github.com/panpf/sketch">很厉害的封装库</a>
+<a href="https://github.com/wasabeef/glide-transformations">变幻库</a>
