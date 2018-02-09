@@ -1,0 +1,3 @@
+E:\sdk\sdk\platform-tools
+android 的命令行要在sdk的platform-tools下使用
+或者在 AS 的 Terminal 中使用,默认 Terminal 的目录在项目跟目录上
