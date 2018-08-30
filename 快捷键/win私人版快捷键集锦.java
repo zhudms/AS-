@@ -41,6 +41,9 @@ ctrl+alt+o 自动倒包
 
 ctrl+alt+shift +上下方向键 光标向上下移动一个代码段--不怎么好用
 
+生成：
+alt+insert 生成构造方法、get set等方法
+
 
 
  
