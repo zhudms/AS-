@@ -44,6 +44,13 @@ ctrl+alt+shift +上下方向键 光标向上下移动一个代码段--不怎么�
 生成：
 alt+insert 生成构造方法、get set等方法
 
+AndroidStudio自定义类创建时自动生成的头部注释
+https://www.jianshu.com/p/4c42f4152d84
+https://blog.csdn.net/panhouye/article/details/77528918
+
+自动生成方法注释
+在setting-plugin-Browse repositories 中添加javadoc插件
+
 
 
  
