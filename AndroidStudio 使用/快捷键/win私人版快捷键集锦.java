@@ -49,7 +49,7 @@ https://www.jianshu.com/p/4c42f4152d84
 https://blog.csdn.net/panhouye/article/details/77528918
 
 自动生成方法注释
-在setting-plugin-Browse repositories 中添加javadoc插件
+在setting-plugin-Browse repositories 中添加javadoc插件 
 
 
 
