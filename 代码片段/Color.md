@@ -1,0 +1,1 @@
+Color.parseColor("#CE2828")
