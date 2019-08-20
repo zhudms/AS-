@@ -1,0 +1,9 @@
+Android中关闭DatePicker、TimePicker、NumberPicker的可编辑模式
+2014年12月29日 14:05:44 yanjiee 阅读数 10921
+DatePicker、TimePicker、NumberPicker这三个控件在使用的过程中，用户点击数字会弹出键盘，有时候会造成布局被挤压不好看，也有其他的需求。
+
+我看了网上很多文章的解决办法都无效，后来还是万能的StackOverflow网站帮我解决了这个问题，代码如下：
+
+
+mDatePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+mTimePicker.setDescendantFocusability(TimePicker.FOCUS_BLOCK_DESCENDANTS);
