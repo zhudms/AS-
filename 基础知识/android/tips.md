@@ -1,0 +1,2 @@
+Toast 可以使用Application 的Context弹出
+Dialog 必须使用Activity 的Context 弹出
