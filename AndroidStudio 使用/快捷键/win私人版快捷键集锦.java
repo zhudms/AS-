@@ -51,6 +51,8 @@ https://blog.csdn.net/panhouye/article/details/77528918
 自动生成方法注释
 在setting-plugin-Browse repositories 中添加javadoc插件 
 
+提取局部变量：Ctrl+Alt+V
 
+提取全局变量：Ctrl+Alt+F
 
  

@@ -38,7 +38,8 @@ ctrl+alt+o 自动倒包
 快速移动一行代码（越过代码块）ctrl+shift+上下
  alt+j(ctrl+G,mac) 多行编辑
 
-
+选择
+按住shift+鼠标左键  选中光标到鼠标点击之间的文本
 ctrl+alt+shift +上下方向键 光标向上下移动一个代码段--不怎么好用
 
 生成：
