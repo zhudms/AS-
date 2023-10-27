@@ -1,0 +1,378 @@
+app:layout_heightPercent
+app:layout_widthPercent
+app:layout_marginPercent
+app:layout_marginTopPercent
+app:layout_marginBottomPercent
+app:layout_marginLeftPercent
+app:layout_marginRightPercent
+app:layout_marginStartPercent
+app:layout_marginEndPercent
+
+app:layout_aspectRatio
+————————————————
+版权声明：本文为CSDN博主「lylodlig」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/lylodyf/article/details/53410334
+
+https://blog.csdn.net/lylodyf/article/details/53410334
+Android 百分比布局(percent-support-lib)的使用及源码详解
+
+lylodlig
+
+于 2016-12-05 08:59:03 发布
+
+阅读量1.9k
+ 收藏 1
+
+点赞数
+分类专栏： Android 源码解析
+版权
+
+Android 源码解析
+专栏收录该内容
+7 篇文章0 订阅
+订阅专栏
+百分比布局提供的了两种布局PercentFrameLayout和PercentRelativeLayout，很明显前者继承于FrameLayout，后者继承于RelativeLayout，所以父类的各种属性还是可以使用。百分比布局给我们提供了以下特有的属性：
+
+app:layout_heightPercent
+app:layout_widthPercent
+app:layout_marginPercent
+app:layout_marginTopPercent
+app:layout_marginBottomPercent
+app:layout_marginLeftPercent
+app:layout_marginRightPercent
+app:layout_marginStartPercent
+app:layout_marginEndPercent
+
+app:layout_aspectRatio
+
+
+也就是说我们宽高和各种margin都可以用百分比表示
+
+当使用百分比布局时，就没用必要再去指定宽高（layout_width和layout_height），只需要设置layout_widthPercent和layout_heightPercent就可以了。
+
+如果通过百分比获取的宽高太小或者想要更大的话，可以把layout_width和layout_height指定为wrap_content。
+
+layout_aspectRatio代表横纵比，比如想要把宽高比例设置为2:10，以下代码示例
+<TextView
+            android:id="@+id/tv2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_toRightOf="@id/tv1"
+            android:background="#D5AD34"
+            android:gravity="center"
+            android:text="aspectRatio:2:10,height:100%"
+            android:textColor="@android:color/white"
+            app:layout_aspectRatio="20%"
+            app:layout_heightPercent="100%" />
+app:layout_aspectRatio设置为20%，这个值是宽高的比值，这里就只是指定了app:layout_heightPercent，宽度就很根据这个比值计算出来。
+
+百分比布局的导入
+
+compile 'com.android.support:percent:23.4.0'
+
+PercentFrameLayout使用
+
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.lzy.test.MainActivity">
+ 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="left|top"
+        android:background="#53DBB9"
+        android:gravity="center"
+        android:text="width:30%,height:50%"
+        app:layout_heightPercent="50%"
+        app:layout_widthPercent="30%" />
+ 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="right|top"
+        android:background="#4400ff00"
+        android:gravity="center"
+        android:text="width:70%,height:20%"
+        app:layout_heightPercent="20%"
+        app:layout_widthPercent="70%" />
+ 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#327217"
+        android:gravity="center"
+        android:text="width:70%,height:20%\nmarginTop:20%,marginLeft:30%"
+        app:layout_heightPercent="30%"
+        app:layout_marginLeftPercent="30%"
+        app:layout_marginTopPercent="20%"
+        app:layout_widthPercent="70%" />
+ 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#DF65A2"
+        android:gravity="center"
+        android:text="width:100%,height:40%\nmarginTop:50%"
+        app:layout_heightPercent="40%"
+        app:layout_marginTopPercent="50%"
+        app:layout_widthPercent="100%" />
+ 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:background="#770000ff"
+        android:gravity="center"
+        android:text="width:100%,height:10%"
+        app:layout_heightPercent="10%"
+        app:layout_widthPercent="100%" />
+</android.support.percent.PercentFrameLayout>
+
+
+PercentRelativeLayout
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.lzy.test.Main2Activity">
+ 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#1A807C" />
+ 
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+ 
+        <TextView
+            android:id="@+id/tv1"
+            android:background="#B5256D"
+            android:gravity="center"
+            android:text="width:60%,height:50%"
+            android:textColor="@android:color/white"
+            app:layout_heightPercent="50%"
+            app:layout_widthPercent="60%" />
+ 
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_toRightOf="@id/tv1"
+            android:background="#D5AD34"
+            android:gravity="center"
+            android:text="aspectRatio:2:10,height:100%"
+            android:textColor="@android:color/white"
+            app:layout_aspectRatio="20%"
+            app:layout_heightPercent="100%" />
+ 
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@id/tv1"
+            app:layout_heightPercent="50%"
+            app:layout_widthPercent="60%">
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#4E3ED7"
+                android:gravity="center"
+                android:text="width:40%,height:100%"
+                android:textColor="@android:color/white"
+                app:layout_heightPercent="100%"
+                app:layout_widthPercent="40%" />
+ 
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_alignParentRight="true"
+                android:background="#93E684"
+                android:gravity="center"
+                android:text="width:60%,height:100%"
+                android:textColor="@android:color/white"
+                app:layout_heightPercent="100%"
+                app:layout_widthPercent="60%" />
+        </android.support.percent.PercentRelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
+</LinearLayout>
+
+
+源码分析
+
+看看PercentFrameLayout的主要源码，其中省略了部分代码
+
+public class PercentFrameLayout extends FrameLayout {
+    private final PercentLayoutHelper mHelper = new PercentLayoutHelper(this);
+ 
+    public PercentFrameLayout(Context context) {
+        super(context);
+    }
+ 
+    @Override
+    public LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new LayoutParams(getContext(), attrs);
+    }
+ 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        mHelper.adjustChildren(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (mHelper.handleMeasuredStateTooSmall()) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
+    }
+ 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        mHelper.restoreOriginalParams();
+    }
+ 
+    public static class LayoutParams extends FrameLayout.LayoutParams
+            implements PercentLayoutHelper.PercentLayoutParams {
+        private PercentLayoutHelper.PercentLayoutInfo mPercentLayoutInfo;
+ 
+        public LayoutParams(Context c, AttributeSet attrs) {
+            super(c, attrs);
+            mPercentLayoutInfo = PercentLayoutHelper.getPercentLayoutInfo(c, attrs);
+        }
+ 
+        public LayoutParams(LayoutParams source) {
+            this((FrameLayout.LayoutParams) source);
+            mPercentLayoutInfo = source.mPercentLayoutInfo;
+        }
+ 
+        @Override
+        public PercentLayoutHelper.PercentLayoutInfo getPercentLayoutInfo() {
+            if (mPercentLayoutInfo == null) {
+                mPercentLayoutInfo = new PercentLayoutHelper.PercentLayoutInfo();
+            }
+ 
+            return mPercentLayoutInfo;
+        }
+ 
+        @Override
+        protected void setBaseAttributes(TypedArray a, int widthAttr, int heightAttr) {
+            PercentLayoutHelper.fetchWidthAndHeight(this, a, widthAttr, heightAttr);
+        }
+    }
+}
+
+为了获得PercentFrameLayout的子view里面的自定义属性，所以我们重写了generateLayoutParams方法，把它的返回值修改为我们自己定义的LayoutParams，就相当于把原来的LayoutParams包装了一层，在此过程中就可以截取到属性值，找出子view里面的自定义属性，这些自定义属性就是设置的宽高百分比。
+这个自定义的LayoutParams是继承于FrameLayout.LayoutParams，同时实现了PercentLayoutHelper.PercentLayoutParams接口
+
+public interface PercentLayoutParams {
+        PercentLayoutInfo getPercentLayoutInfo();
+    }
+这个接口就一个返回PercentLayoutInfo的方法，PercentLayoutInfo类就是存储了各种百分比的信息。
+public LayoutParams(Context c, AttributeSet attrs) {
+            super(c, attrs);
+            mPercentLayoutInfo = PercentLayoutHelper.getPercentLayoutInfo(c, attrs);
+        }
+这里显然就是获取attrs里面的各种百分比信息，然后存储在PercentLayoutInfo里面，没什么好说的，点进去看就是各种获取自定义属性的方法，和我们平常的差不多。
+
+下面看看onMeasure方法
+
+ @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        mHelper.adjustChildren(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (mHelper.handleMeasuredStateTooSmall()) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
+    }
+首先是mHelper.adjustChildren(widthMeasureSpec, heightMeasureSpec)，点进去看看
+public void adjustChildren(int widthMeasureSpec, int heightMeasureSpec) {
+ 
+        int widthHint = View.MeasureSpec.getSize(widthMeasureSpec);
+        int heightHint = View.MeasureSpec.getSize(heightMeasureSpec);
+        for (int i = 0, N = mHost.getChildCount(); i < N; i++) {
+            View view = mHost.getChildAt(i);
+            ViewGroup.LayoutParams params = view.getLayoutParams();
+            
+            if (params instanceof PercentLayoutParams) {
+                PercentLayoutInfo info =
+                        ((PercentLayoutParams) params).getPercentLayoutInfo();
+                
+                if (info != null) {
+                    if (params instanceof ViewGroup.MarginLayoutParams) {
+                        info.fillMarginLayoutParams(view, (ViewGroup.MarginLayoutParams) params,
+                                widthHint, heightHint);
+                    } else {
+                        info.fillLayoutParams(params, widthHint, heightHint);
+                    }
+                }
+            }
+        }
+    }
+
+首先这里计算出PercentFrameLayout的宽高，通过百分比计算子view宽高当然需要这个PercentFrameLayout的宽高咯，接着遍历里面的所以子view，判断是否是PercentLayoutParams，如果是就可以调用getPercentLayoutInfo方法来获取到PercentLayoutInfo，最后拿着里面的百分比信息去计算出实际的大小，这里有两种方法来计算，一个是有margin和没有margin的，其实都差不多
+public void fillLayoutParams(ViewGroup.LayoutParams params, int widthHint,
+                int heightHint) {
+            // Preserve the original layout params, so we can restore them after the measure step.
+            mPreservedParams.width = params.width;
+            mPreservedParams.height = params.height;
+ 
+            // We assume that width/height set to 0 means that value was unset. This might not
+            // necessarily be true, as the user might explicitly set it to 0. However, we use this
+            // information only for the aspect ratio. If the user set the aspect ratio attribute,
+            // it means they accept or soon discover that it will be disregarded.
+            final boolean widthNotSet =
+                    (mPreservedParams.mIsWidthComputedFromAspectRatio
+                            || mPreservedParams.width == 0) && (widthPercent < 0);
+            final boolean heightNotSet =
+                    (mPreservedParams.mIsHeightComputedFromAspectRatio
+                            || mPreservedParams.height == 0) && (heightPercent < 0);
+ 
+            if (widthPercent >= 0) {
+                params.width = (int) (widthHint * widthPercent);
+            }
+ 
+            if (heightPercent >= 0) {
+                params.height = (int) (heightHint * heightPercent);
+            }
+ 
+            if (aspectRatio >= 0) {
+                if (widthNotSet) {
+                    params.width = (int) (params.height * aspectRatio);
+                    // Keep track that we've filled the width based on the height and aspect ratio.
+                    mPreservedParams.mIsWidthComputedFromAspectRatio = true;
+                }
+                if (heightNotSet) {
+                    params.height = (int) (params.width / aspectRatio);
+                    // Keep track that we've filled the height based on the width and aspect ratio.
+                    mPreservedParams.mIsHeightComputedFromAspectRatio = true;
+                }
+            }
+        }
+
+首先是通过mPreservedParams记录了子view原始的宽高，然后判断是否设置了宽高，这个在后面aspectRatio用，接着就是根据百分比计算出宽高了，最后根据设置的横纵比aspectRatio来计算宽高。这样就根据百分比来重新设置了宽高，大功告成了！
+好了，这里面就完成了，回到onMeasure方法，这里
+
+ if (mHelper.handleMeasuredStateTooSmall()) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
+很显然，就是判断测量的宽高是不是太小，如果太小的话，就会使用wrap_content来重新测量，这里就不具体看了。
+
+ @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        mHelper.restoreOriginalParams();
+    }
+这里调用了一个 mHelper.restoreOriginalParams()方法，作用是恢复原始的参数值，在上面的fillLayoutParams方法中不是把原始的值存储到mPreservedParams中了吗，目的就是在这里用于恢复的，因为在利用百分比计算宽高时已经改变了它原始的值。至于为什么要恢复这个原始的值，具体我也不太清楚，毕竟也是菜鸟一个~~分析就到此完毕了。
+
+
+其实PercentRelativeLayout源码和PercentFrameLayout基本都差不多，只是其中自定义的LayoutParams是继承于RelativeLayout的LayoutParams，所以你想要实现LinearLayout的百分比布局，也只需要把自定义的LayoutParams继承于LinearLayout的LayoutParams就OK了
+————————————————
+版权声明：本文为CSDN博主「lylodlig」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/lylodyf/article/details/53410334
