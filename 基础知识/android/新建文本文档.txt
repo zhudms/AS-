@@ -1,0 +1,5 @@
+      Point p = new Point();
+        Display display = this.getWindowManager().getDefaultDisplay();	//获得默认（本地）的显示设备
+        display.getSize(p);
+        int screen_width = p.x;
+        int screen_Height = p.y;
