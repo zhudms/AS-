@@ -6,3 +6,5 @@ https://blog.csdn.net/qq_41176055/article/details/128496628?ops_request_misc=%25
 
 
 https://zhuanlan.zhihu.com/p/489362379?utm_id=0
+
+C:\Windows\System32\drivers\etc
