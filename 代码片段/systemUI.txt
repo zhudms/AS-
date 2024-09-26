@@ -1,0 +1,308 @@
+关于Android SystemUI Flag详解及使用情景
+
+海伟
+
+于 2023-03-15 15:57:21 发布
+
+阅读量2.4k
+ 收藏 10
+
+点赞数2
+文章标签： android ui
+版权
+造成SystemUI Flag被系统自动清除的几种情况
+触摸屏幕任何位置
+顶部下拉状态栏
+底部上拉导航栏
+Window的变化(如：跳转到其他界面、弹出键盘等)
+SystemUI Flag 相关特性详解
+View.SYSTEM_UI_FLAG_HIDE_NAVIGATION：(>=api16)
+作用是隐藏系统NavigationBar。
+但是用户的任何交互，都会导致此Flag被系统清除，进而导航栏自动重新显示，同时View.SYSTEM_UI_FLAG_FULLSCREEN也会被自动清除，因此StatusBar也会同时显示出来。
+
+View.SYSTEM_UI_FLAG_FULLSCREEN：(>=api16)
+作用是隐藏StatusBar。
+和WindowManager.LayoutParams.FLAG_FULLSCREEN有相同视觉效果。不同在于，此Flag一般用在暂时需要全屏的情形（如：阅读应用，全屏视频等），以便让用户的注意力暂时集中在内容上，而如果只是简单的需要一直停留在全屏状态（如：游戏应用），使用WindowManager.LayoutParams.FLAG_FULLSCREEN则是更好的选择。
+此Flag会因为各种的交互（如：跳转到其他应用,下拉StatusBar，弹出键盘）的发送而被系统清除。
+
+View.SYSTEM_UI_FLAG_IMMERSIVE：(>=api19)
+作用:避免某些用户交互造成系统自动清除全屏状态。
+
+View.SYSTEM_UI_FLAG_IMMERSIVE和View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY的使用主要是为了当设置全屏模式时，避免某些用户交互造成系统自动清除全屏状态。
+当使用View.SYSTEM_UI_FLAG_HIDE_NAVIGATION隐藏导航栏时，配合此特性，只有第三、四种操作会导致导航栏的隐藏状态被系统自动清除；否则，任何交互都会导致导航栏的隐藏状态被系统自动清除。
+此标识只有配合View.SYSTEM_UI_FLAG_HIDE_NAVIGATION才有作用。
+
+View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY：(>=api19)
+作用:避免某些用户交互造成系统自动清除全屏状态。同时Activity的部分内容也因此被StatusBar覆盖遮挡。
+
+用View.SYSTEM_UI_FLAG_HIDE_NAVIGATION隐藏导航栏，配合使用此Flag,只有用户的第四种操作会导致状态栏或（和）导航栏的隐藏状态被系统自动清除。否则任何交互都会导致相应状态的清除。
+此Flag只有配合SYSTEM_UI_FLAG_FULLSCREEN和SYSTEM_UI_FLAG_HIDE_NAVIGATION使用时才会起作用。
+
+View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION：(>=api16)
+作用:在不隐藏导航栏的情况下，将Activity的显示范围扩展到导航栏底部。同时Activity的部分内容也因此被NavigationBar覆盖遮挡。
+
+当使用此Flag时，设置fitSystemWindow=true的view，会被系统自动添加大小为NavigationBar高度相同的paddingBottom。
+当window设置WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION时，此Flag会被系统会自动添加。
+
+View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN：(>=api16)
+作用：在不隐藏StatusBar的情况下，将view所在window的显示范围扩展到StatusBar下面。同时Activity的部分内容也因此被StatusBar覆盖遮挡。
+
+当使用此Flag时，设置fitSystemWindow=true的view，会被系统自动添加大小为statusBar和ActionBar高度之和相同的paddingTop。
+当window设置WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS时，此Flag会被系统会自动添加。
+
+View.SYSTEM_UI_FLAG_LAYOUT_STABLE:
+作用:
+稳定布局。当StatusBar和NavigationBar动态显示和隐藏时，系统为fitSystemWindow=true的view设置的padding大小都不会变化，所以view的内容的位置也不会发生移动。
+
+当使用SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN或SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)，同时view设置fitSystemWindow=true时，系统会为此View自动设置padding。此padding的大小由View.fitSystemWindows(Rect)的Rect提供。一般情况下，当StatusBar和NavigationBar显示时，paddingTop的大小为StatusBar的高度。如果设置了getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY),paddingTop的大小则为StatusBar和ActionBar的高度之和。paddingBottom的大小则为NavigationBar的高度。当StatusBar和NavigationBar被隐藏时，View的padingBottom和paddingTop的大小就变成了0,
+因此StatusBar和NavigationBar的显示和隐藏造成的padding变化，进而View内容的位置变化，从而造成位置闪动的视觉效果，影响体验。
+使用SYSTEM_UI_FLAG_LAYOUT_STABLE的作用便是当StatusBar和NavigationBar的显示和隐藏，系统为View设置的padding都不会变化，因此View内容的位置不会变化，此即为稳定布局。
+-. （SYSTEM_UI_FLAG_FULLSCREEN |SYSTEM_UI_FLAG_LAYOUT_STABLE）时， 会同时隐藏Actionbar和StatusBar，但StatusBar所占空间不会隐藏，只会变成空白。同时View所在window的显示范围也不会伸展到StatusBar所占空间。若是加上SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN，View所在window的显示范围则会伸展到StatusBar所在的空间。
+同样对NavigationBar如此操作，也会是一样的效果。
+
+当你设置了SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN时，配合此特性，若此时设置或取消SYSTEM_UI_FLAG_FULLSCREEN，不会因为StatusBar的显示或隐藏不会造成内容view的不稳定。
+
+当你设置了SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN和SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION，配合此特性，若此时设置或取消SYSTEM_UI_FLAG_FULLSCREEN和SYSTEM_UI_FLAG_HIDE_NAVIGATION，不会因为StatusBar和导航栏的显示或隐藏不会造成内容view的不稳定。
+
+此特性不应该只配合SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION使用
+
+使用WindowManager.LayoutParams.FLAG_FULLSCREEN（而不是使用SYSTEM_UI_FLAG_FULLSCREEN）来隐藏StatusBar是一个一直持续隐藏的状态。这时你仍然可以使用SYSTEM_UI_FLAG_FULLSCREEN | SYSTEM_UI_FLAG_LAYOUT_STABLE隐藏Actionbar，并且不会因为ActionBar的显示或隐藏而不稳定。
+
+fitSystemWindow
+只有设置了View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION或View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN，View的 fitSystemWindow=true才会有效果。
+
+WindowManager 相关特性详解
+WindowMananger.FLAG_TRANSLUCENT_STATUS： (>=api16)
+半透明StatusBar,并且不会因用户交互而被清除。
+设置了此flag,系统会自动设置View.SYSTEM_UI_FLAG_LAYOUT_STABLE和View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+
+WindowMananger.FLAG_FULLSCREEN：
+用于隐藏StatusBar
+使用此flag,系统会自动忽略输入法的SOFT_INPUT_ADJUST_RESIZE的特性。
+
+WindowMananger.FLAG_TRANSLUCENT_NAVIGATION：
+1.半透明NavigationBar,并且不会因用户交互而被清除。
+2.设置了此flag,系统会自动设置View.SYSTEM_UI_FLAG_LAYOUT_STABLE和View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+最低版本支持：Android4.4 (api 19)
+
+WindowMananger.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS：
+1.用于未StatusBar和NavigationBar设置背景颜色。
+2.原理：将StatusBar和NavigationBar设置为透明背景，并且将StatusBar和NavigationBar所在空间设置为Window.getStatusBarColor() 和Window.getNavigationBarColor()方法获得的颜色。
+最低版本支持：Android5.0 (api 21)
+
+SystemUI Flag引起的软键盘变化
+在使用SOFT_INPUT_ADJUST_RESIZE，
+同时View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN或View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION时，当键盘弹出时，只会fitSystemWindow=true的view所占区域会被resize，其他view将会被软键盘覆盖。
+
+常用情形
+
+隐藏状态栏
+代码实例1
+
+private fun hideStatusBar(){
+    layout.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+}
+1
+2
+3
+注意：用户的第二、四类交互操作都会使系统自动清除状态栏隐藏状态（系统会自动取消View.SYSTEM_UI_FLAG_FULLSCREEN的设置）
+
+代码实例2
+
+private fun hideStatusBar(){
+    var tag = (View.SYSTEM_UI_FLAG_FULLSCREEN
+            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+    layout.systemUiVisibility = tag
+}
+1
+2
+3
+4
+5
+注意：用户的第四类交互操作会使系统自动清除状态栏隐藏状态（系统会自动取消View.SYSTEM_UI_FLAG_FULLSCREEN的设置，但是不会取消View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY）；用户的第二类操作会使状态栏暂时显示，延迟几秒后自动消失。
+
+代码实例3
+
+private fun hideStatusBar(on: Boolean) {
+    val winParams = window.attributes
+    val bits = WindowManager.LayoutParams.FLAG_FULLSCREEN
+    if (on) {//隐藏状态栏
+        winParams.flags = winParams.flags or bits
+    } else {//显示状态栏
+        winParams.flags = winParams.flags and bits.inv()
+    }
+    window.attributes = winParams
+}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+注意：
+1.用户任何交互操作都不会使系统自动清除状态栏隐藏状态；用户的第二类操作会是状态栏暂时显示，延迟几秒后自动消失。
+2.使用此flag,系统会自动忽略输入法的SOFT_INPUT_ADJUST_RESIZE的特性。
+
+透明状态栏
+代码实例1：半透明状态栏
+
+private fun translateStatusBar(on: Boolean) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        var p = window.attributes
+        p.flags = p.flags or WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+        window.attributes = p
+    }
+}
+1
+2
+3
+4
+5
+6
+7
+注意：为避免状态栏遮挡View上的部分信息，需要为View设置fitSystemWindow=true，或手动设置padding
+
+代码实例2：透明状态栏
+
+private fun translateStatusBar() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = Color.TRANSPARENT
+        var tag = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+        layout.systemUiVisibility = tag
+    }
+}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+注意：
+
+Android的状态栏的字体颜色默认为白色，只有Android6.0以后才提供官方的API选择黑色字体（View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR）。所以当6.0以下使用透明状态栏时，若StatusBar下面的View的也为白色背景时，则会造成看不到StatusBar的相关信息。
+为避免状态栏遮挡View上的部分信息，需要为View设置fitSystemWindow=true，或手动设置padding
+隐藏导航栏
+代码实例1
+
+private fun hideNavigationBar(){
+    layout.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+}
+1
+2
+3
+注意：用户的任何操作都会使系统自动清除此状态。SYSTEM_UI_FLAG_HIDE_NAVIGATION被系统自动清除时会连带清除SYSTEM_UI_FLAG_FULLSCREEN
+
+代码实例2
+
+private fun hideNavigationBar(){
+    var tag = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            or View.SYSTEM_UI_FLAG_IMMERSIVE)
+    layout.systemUiVisibility = tag
+}
+1
+2
+3
+4
+5
+注意：用户的第三、四类交互操作会使系统自动清除此状态；用户的第二类操作会是状态栏暂时显示，延迟几秒后自动消失
+
+代码实例3
+
+private fun hideNavigationBar(){
+    var tag = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+    layout.systemUiVisibility = tag
+}
+1
+2
+3
+4
+5
+注意：用户的第四类交互操作会使系统自动清除此状态；用户的第三类操作会是使导航栏暂时显示，延迟几秒后自动消失
+
+全屏模式
+代码实例1：一般用于视频播放的情形
+
+private fun fullScreen(){
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        var tag = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABL)
+        layout.systemUiVisibility = tag
+    } 
+}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+注意： 用户的任何交互都会导致全屏状态被系统清除
+
+代码实例2：一般用于沉浸阅读的情形
+
+private fun fullScreen(){
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        var tag = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_IMMERSIVE)
+        layout.systemUiVisibility = tag
+    } 
+}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+代码实例3：：一般用于游戏等严格沉浸的情形
+
+private fun fullScreen(){
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        var tag = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        layout.systemUiVisibility = tag
+    } 
+}
+修改SystemBar的颜色
+代码实例1
+private fun setSystemBarColor(int color){
+    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS|WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    window.statusBarColor = color
+    window.navigationBarColor = color
+}
+————————————————
+
+                            版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。
+                        
+原文链接：https://blog.csdn.net/weixin_39170886/article/details/129557620
